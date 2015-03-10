@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--suppress XmlUnboundNsPrefix, XmlUnboundNsPrefix -->
+<Context crossContext="true" debug="5" docBase="pride" path="/pride"
+		reloadable="false" readonly="true" >
+
+	<!-- Datasource Développement -->
+	<Resource auth="Container" driverClassName="com.mysql.jdbc.Driver"
+		maxActive="100" maxIdle="30" maxWait="10000" name="jdbc/cxfds"
+		type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/pride"
+		username="root" password="hardis38" 
+		validationQuery="SELECT 1" testOnBorrow="true"
+		poolPreparedStatements="true" maxOpenPreparedStatements="100" />
+         
+</Context>

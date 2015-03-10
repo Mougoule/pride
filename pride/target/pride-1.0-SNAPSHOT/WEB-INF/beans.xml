@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:cxf="http://cxf.apache.org/core"
+	xsi:schemaLocation="
+			http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd 
+			http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd 
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+
+	<context:property-placeholder />
+	<context:annotation-config />
+	<context:component-scan base-package="fr.pride.project.services.business" />
+
+	<bean
+		class="org.springframework.web.context.support.ServletContextPropertyPlaceholderConfigurer" />
+	<bean
+		class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer" />
+
+	<!-- JMX monitoring <bean id="org.apache.cxf.management.InstrumentationManager" 
+		class="org.apache.cxf.management.jmx.InstrumentationManagerImpl"> <property 
+		name="enabled" value="true" /> <property name="bus" ref="cxf" /> <property 
+		name="usePlatformMBeanServer" value="true" /> </bean> <bean id="CounterRepository" 
+		class="org.apache.cxf.management.counters.CounterRepository"> <property name="bus" 
+		ref="cxf" /> </bean> -->
+
+	<!-- JPA -->
+	<bean
+		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+	<bean id="emf"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="cxf_unit" />
+	</bean>
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="emf" />
+	</bean>
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<!-- services rest -->
+	<jaxrs:server id="services" address="/rs">
+		<jaxrs:serviceBeans>
+			<bean
+				class="fr.pride.project.services.rs.CustomerRestService">
+			</bean>
+			<bean
+				class="fr.pride.project.services.rs.ParameterRestService">
+			</bean>
+			<bean
+				class="fr.pride.project.services.rs.SecurityRestService">
+			</bean>
+		</jaxrs:serviceBeans>
+		<jaxrs:providers>
+			<bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
+			<bean
+				class="fr.pride.project.services.common.GeneralExceptionHandler" />
+		</jaxrs:providers>
+		<jaxrs:features>
+			<cxf:logging />
+		</jaxrs:features>
+		<jaxrs:inInterceptors>
+
+			<bean
+				class="fr.pride.project.services.rs.interceptors.TokenInterceptor" />
+		</jaxrs:inInterceptors>
+		<!-- Keeping extention type -->
+		<jaxrs:extensionMappings>
+			<entry key="json" value="application/json" />
+			<entry key="xml" value="application/xml" />
+		</jaxrs:extensionMappings>
+	</jaxrs:server>
+
+</beans>
