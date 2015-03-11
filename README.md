@@ -82,7 +82,7 @@ Ne pas commiter les fichiers de confs, du style :
   - "Pom.xml" (le fichier de Maven). Dans ce fichier, au début il y a des balises <profile>, dedans il y a une balise <logs.folder>, elle indique l'endroit où les logs seront copiés. Il faut créer le dossier au chemin indiqué (vous pouvez changez le chemin mais il faut pas le commiter).
   - "persistence.xml" (c'est pour la BDD)
   - "context.xml" (c'est ce qui fait le lien avec la BDD). Dans ce fichier il y a des modifs à faire, mais elles sont propres à chacun, il faut pas commiter. Les modfis sont :
-      -  username="root" password="hardis38", il faut remplacer par le username et le password que vous utilisez pour vous connecter à la base en local sur votre machine. Je parlerai de la base plus tard.
+      -  username="root" password="", il faut remplacer par le username et le password que vous utilisez pour vous connecter à la base en local sur votre machine. Je parlerai de la base plus tard.
   - "web.xml" (fichier de conf de CXF)
   - "beans.xml", celui-là faut apporter des modifs, mais il faut faire attention de pas tout casser. On ajoute les web services qu'on a créé dedans. Il y en a déjà, c'est des exemples. C'est très simple, quand on créer un service, on rajoute les lignes à la suite de celle déjà existentes (en faisant attention de pas niquer les balises) : 
       <bean
