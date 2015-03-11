@@ -12,6 +12,8 @@ Repository (ou repo) : c'est le Github
 
 II. Mise en place d'Eclipse (Luna)
 
+Ultra important !!!! Aller dans "Windows" -> "Preference" -> "General" -> "Workspace" et changer le "Text file encoding" en "Other: UTF-8". Sinon ça fout la merde dans les commentaires. (Je l'ai pas fait quand j'ai créé le projet du coup il est tout dégeu avec des caractère chelou. Merci de le remplacer quand vous les voyez, sinon c'est pas grave).
+
 	a. Téléchargement Subclipse
 
 Il faut utiliser Eclipse Luna (parce que j'ai fait les tests pour Github sur Luna)
