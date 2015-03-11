@@ -1,4 +1,8 @@
-PRIDE est une application RESTfull pour proposer des idées de projets
+PRIDE est une application RESTfull pour proposer des idées de projets.
+Utilisation de :
+	- CXF : "Apache CXF is an open source services framework. CXF helps you build and develop services using frontend programming APIs, like JAX-WS and JAX-RS. These services can speak a variety of protocols such as SOAP, XML/HTTP, RESTful HTTP, or CORBA and work over a variety of transports such as HTTP, JMS or JBI." (http://cxf.apache.org/).
+	- Hibernate : Hibernate est un framework open source gérant la persistance des objets en base de données relationnelle. Hibernate est adaptable en termes d'architecture, il peut donc être utilisé aussi bien dans un développement client lourd, que dans un environnement web léger de type Apache Tomcat ou dans un environnement Java EE complet : WebSphere, JBoss Application Server et Oracle WebLogic Server. (http://fr.wikipedia.org/wiki/Hibernate).
+	- JPA : La Java Persistence API (abrégée en JPA), est une interface de programmation Java permettant aux développeurs d'organiser des données relationnelles dans des applications utilisant la plateforme Java. (http://fr.wikipedia.org/wiki/Java_Persistence_API).
 
 Repository (ou repo) : c'est le Github
 Quand eclipse demande de s'identifier (quand vous faites un commit ou quoi que ce soit d'autre, voir plus bas) dans Usernam il faut mettre le pseudo de Github et dans mot de passe... le mot de passe de Github.
