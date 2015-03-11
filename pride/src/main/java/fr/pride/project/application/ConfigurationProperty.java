@@ -1,7 +1,7 @@
 package fr.pride.project.application;
 
 /**
- * ClÃ©s des propriÃ©tÃ©s de configuration l'application.
+ * Clés des propriétés de configuration l'application.
  * 
  *
  */
@@ -10,13 +10,9 @@ public enum ConfigurationProperty {
 	APP_NAME("application.name"),
 	APP_VERSION("application.version"),
 	
-	APP_TOKEN_DURATION("application.token.duration"),
+	APP_TOKEN_DURATION("application.token.duration");
 	
-	APP_MAIL_FROM_EMAIL("application.mail.from.email"),
-	APP_MAIL_FROM_NAME("application.mail.from.name"),
-	APP_MAIL_ENCODING("application.mail.encoding");
-	
-	/** ClÃ© de a configuration */
+	/** Clé de a configuration */
 	private String key;
 	
 	private ConfigurationProperty(String key) {
