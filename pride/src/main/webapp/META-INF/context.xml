@@ -7,7 +7,7 @@
 	<Resource auth="Container" driverClassName="com.mysql.jdbc.Driver"
 		maxActive="100" maxIdle="30" maxWait="10000" name="jdbc/cxfds"
 		type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/pride"
-		username="root" password="hardis38" 
+		username="root" password="" 
 		validationQuery="SELECT 1" testOnBorrow="true"
 		poolPreparedStatements="true" maxOpenPreparedStatements="100" />
          
