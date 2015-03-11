@@ -51,6 +51,9 @@
 			<bean
 				class="fr.pride.project.services.rs.SecurityRestService">
 			</bean>
+			<bean
+				class="fr.pride.project.services.rs.UtilisateurRestService">
+			</bean>
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
 			<bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
