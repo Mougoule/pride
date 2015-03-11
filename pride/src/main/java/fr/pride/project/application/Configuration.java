@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
  */
 public final class Configuration {
 
-	// yo
 	/** Logger */
 	@SuppressWarnings("unused")
 	private static final Logger LOGGER = LoggerFactory.getLogger(Configuration.class);
