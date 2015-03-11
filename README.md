@@ -11,6 +11,7 @@ Utilisation de :
 Repository (ou repo) : c'est le Github
 
 II. Mise en place d'Eclipse (Luna)
+
 	a. Téléchargement Subclipse
 
 Il faut utiliser Eclipse Luna (parce que j'ai fait les tests pour Github sur Luna)
@@ -19,8 +20,9 @@ Dans la petite bar de recherche en haut à gauche, il faut chercher le plugin su
 
   - Subclipse 1.10.9 (il suffit de tapper "Subclipse", pour synchroniser avec Github)
 
+
 	b. Tomcat (serveur virtuel)
-	
+
 On utilise un serveur virtuel pour pouvoir exposer les Web Service : TomCat 7.0.55
 Pour ça, on fait clique droit dans le vide dans le panneau des projets à gauche -> "New" -> "Other..." -> "Server" -> "Next".
 Dans la nouvelle fenêtre : "Apache" -> "Tomcat v7.0 server" -> "Next"
