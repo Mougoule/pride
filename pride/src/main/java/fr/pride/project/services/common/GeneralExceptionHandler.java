@@ -13,7 +13,7 @@ import fr.pride.project.services.common.ResponseFactory.ResponseType;
 import fr.pride.project.services.rs.helpers.RestServiceHelper;
 
 /**
- * Handler gÃ©rant les exceptions des services dans les WS RS
+ * Handler gérant les exceptions des services dans les WS RS
  * 
  *
  */

@@ -1,7 +1,7 @@
 package fr.pride.project.services.common;
 
 /**
- * Fabrique de rÃ©ponse
+ * Fabrique de réponse
  * 
  *
  */

@@ -20,7 +20,7 @@ import fr.pride.project.services.common.SuccessfulResponseEntity;
 import fr.pride.project.services.common.ResponseFactory.ResponseType;
 
 /**
- * Helper pour gÃ©nrÃ©rer les rÃ©ponses des WS REST
+ * Helper pour génrérer les réponses des WS REST
  * 
  *
  */
@@ -30,11 +30,11 @@ public final class RestServiceHelper {
 	private static final Logger LOGGER = LoggerFactory.getLogger(RestServiceHelper.class);
 	
 	/**
-	 * Retourne une rÃ©ponse avec un seule objet
+	 * Retourne une réponse avec un seule objet
 	 * 
 	 * @param object
-	 *            objet Ã  ajouter dans la rÃ©ponse
-	 * @return envelope de rÃ©ponse
+	 *            objet à  ajouter dans la réponse
+	 * @return envelope de réponse
 	 */
 	public static Response handleSuccessfulResponse(Object object) {
 		SuccessfulResponseEntity.Builder responseEntityBuilder = (SuccessfulResponseEntity.Builder) ResponseFactory
@@ -44,22 +44,22 @@ public final class RestServiceHelper {
 	}
 
 	/**
-	 * RÃ©tourne une rÃ©ponse erronÃ©e pour une exception en particulier
+	 * Retourne une réponse erronée pour une exception en particulier
 	 * 
 	 * @param input
 	 *            erreur de base
-	 * @return enveloper de rÃ©ponse
+	 * @return enveloper de réponse
 	 */
 	public static Response handleFailureResponse(BaseException input) {
 		return handleFailureResponse(input, null);
 	}
 
 	/**
-	 * RÃ©tourne une rÃ©ponse erronÃ©e pour une exception en particulier
+	 * Retourne une réponse erronée pour une exception en particulier
 	 * 
 	 * @param input
 	 *            erreur de base
-	 * @return enveloper de rÃ©ponse
+	 * @return enveloper de réponse
 	 */
 	public static Response handleFailureResponse(BaseException input, Status status) {
 		ResponseBuilder responseBuilder;
@@ -71,11 +71,11 @@ public final class RestServiceHelper {
 
 		if (status == null) {
 			if (input.isGrave()) {
-				// Erreur technique imprÃ©vue, on loggue
-				LOGGER.error("An error occured in web service", input);
+				// Erreur technique imprévue, on loggue
+				LOGGER.error("Une erreur s'est produite dans le web service", input);
 				responseBuilder = Response.serverError();
 			} else {
-				// Erreur fonctionnelle, on loggue pas et on considÃ¨re que c'est
+				// Erreur fonctionnelle, on loggue pas et on considère que c'est
 				// un cas normal
 				responseBuilder = Response.ok();
 			}
@@ -89,10 +89,10 @@ public final class RestServiceHelper {
 	}
 	
 	/**
-	 * Retrouve la mÃ©thode Java appelÃ©e par un service RS
+	 * Retrouve la méthode Java appelée par un service RS
 	 * 
 	 * @param message Le message
-	 * @return La mÃ©thode correspondante
+	 * @return La méthode correspondante
 	 */
 	public static Method findServiceMethod(Message message) {
         Message inMessage = message.getExchange().getInMessage();

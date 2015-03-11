@@ -49,7 +49,11 @@ public class ApplicationBusinessService {
 	private EntityManager em;
 
 	/**
-	 * @see ApplicationBusinessService#addParameter(Parameter)
+	 * Creates a new parameter
+	 * 
+	 * @param input Parameter to create
+	 * @return The parameter
+	 * @throws BaseException Shit happens
 	 */
 	@Transactional
 	public Parameter addParameter(Parameter input) throws BaseException {
@@ -63,7 +67,11 @@ public class ApplicationBusinessService {
 	}
 
 	/**
-	 * @see ApplicationBusinessService#getParameter(ParameterKey)
+	 * Gets a new parameter
+	 * 
+	 * @param key Parameter key
+	 * @return The parameter value
+	 * @throws BaseException Shit happens
 	 */
 	public Object getParameter(final ParameterKey key) throws BaseException {
 		LOGGER.info("récupération d'un paramètre");
@@ -94,7 +102,11 @@ public class ApplicationBusinessService {
 	}
 
 	/**
-	 * @see ApplicationBusinessService#updateParameter(ParameterKey, String)
+	 * Updates a new parameter
+	 * 
+	 * @param input Parameter to update
+	 * @return The parameter updated
+	 * @throws BaseException Shit happens
 	 */
 	@Transactional
 	public Parameter updateParameter(ParameterKey key, String value) throws BaseException {

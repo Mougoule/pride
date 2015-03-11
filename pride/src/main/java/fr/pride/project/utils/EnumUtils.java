@@ -1,12 +1,8 @@
 package fr.pride.project.utils;
 
-import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 
+// TODO ‡ supprimer
 public final class EnumUtils {
 
 	private static final String ENUM_VALUES_FIELD_1 = "ENUM$VALUES";
@@ -38,7 +34,7 @@ public final class EnumUtils {
 	 * @param enumType Classe de l'enum
 	 * @return Une Map contenant les diff√©rents champs de l'enum
 	 */
-	public static <E extends Enum<E>> Map<String, Map<String, Object>> toMap(Class<E> enumType) {
+/*	public static <E extends Enum<E>> Map<String, Map<String, Object>> toMap(Class<E> enumType) {
 		E[] constants = enumType.getEnumConstants();
 		Map<String, Map<String, Object>> toReturn = new LinkedHashMap<String, Map<String, Object>>(constants.length);
 
@@ -67,5 +63,5 @@ public final class EnumUtils {
 
 		return toReturn;
 	}
-
+*/
 }

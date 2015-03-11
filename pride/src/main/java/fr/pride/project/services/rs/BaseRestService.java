@@ -9,7 +9,7 @@ public abstract class BaseRestService {
 	/**
 	 * calcule de la dernier page dns le procesus de pagination
 	 * @param pageSize taille de la page
-	 * @param countResult quantitÃ© d'elements dans la base
+	 * @param countResult quantité d'elements dans la base
 	 * @return index de la dernier page
 	 */
 	protected int getLastPageNumber(int pageSize, int countResult) {

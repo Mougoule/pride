@@ -9,7 +9,7 @@ package fr.pride.project.services.common;
 public interface LifeCycleRestService {
 	
 	/**
-	 * aprÃ¨s l'execution du constructeur 
+	 * après l'execution du constructeur 
 	 */
 	void init();
 	

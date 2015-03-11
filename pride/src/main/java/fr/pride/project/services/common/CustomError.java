@@ -1,16 +1,16 @@
 package fr.pride.project.services.common;
 
 /**
- * Liste d'erreurs mÃ©tier
+ * Liste d'erreurs métier
  * 
  *
  */
 public enum CustomError implements BusinessError {
 	
-	/* Erreurs gÃ©nÃ©riques */
+	/* Erreurs génériques */
 	ERROR_GENERIC_NOT_FOUND("GEN_01"),
 	
-	/* Erreurs de securitÃ© */
+	/* Erreurs de securité */
 	ERROR_SECURITY_INVALID_CREDENTIALS("SEC_02"),
 	
 	/* Erreurs du client */

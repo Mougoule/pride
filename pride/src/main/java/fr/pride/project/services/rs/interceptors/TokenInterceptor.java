@@ -91,8 +91,8 @@ public class TokenInterceptor extends AbstractPhaseInterceptor<Message> {
 	private static void throwSecurityTokenException() {
 		BusinessException e = new BusinessException(
 				BaseError.ERROR_SECURITY_TOKEN, 
-				"No token provided", 
-				"You tried to access a tokenized method but you did not provide any token");
+				"Aucun token fournis", 
+				"Vous essayez d'accéder à une méthode nécessitant un token mais vous ne n'en fournissez pas, ou il est expiré");
 		throw new Fault(e);
 	}
 }

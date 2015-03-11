@@ -1,16 +1,16 @@
 package fr.pride.project.services.common;
 
 /**
- * Erreur de base traitÃ©es par le Exception Handler
+ * Erreur de base traitées par le Exception Handler
  * 
  *
  */
 public enum BaseError implements BusinessError {
 	
-	/* Erreurs gÃ©nÃ©riques */
+	/* Erreurs génériques */
 	ERROR_GENERIC("GEN_00"),
 	
-	/* Erreurs de securitÃ© */
+	/* Erreurs de securité */
 	ERROR_SECURITY_TOKEN("SEC_00");
 	
 	/** Code de l'erreur */

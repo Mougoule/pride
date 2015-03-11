@@ -16,7 +16,6 @@ import fr.pride.project.model.beans.ParameterKey;
 import fr.pride.project.services.business.ApplicationBusinessService;
 import fr.pride.project.services.business.exceptions.BaseException;
 import fr.pride.project.services.rs.helpers.RestServiceHelper;
-import fr.pride.project.utils.EnumUtils;
 
 @Path("/parameters")
 public class ParameterRestService {
@@ -30,8 +29,8 @@ public class ParameterRestService {
 	private ApplicationBusinessService applicationBusinessService;
 
 	/**
-	 * RÃ©cupÃ©ration paramÃ¨tre
-	 * @return Le paramÃ¨tre
+	 * Récupération paramètre
+	 * @return Le paramètre
 	 */
     @GET
     @Path("/{key}")
@@ -39,7 +38,7 @@ public class ParameterRestService {
     public Response getParameter(@PathParam("key") String keyStr) {
 		Response response;
 
-		ParameterKey key = EnumUtils.valueOf(ParameterKey.class, keyStr);
+		ParameterKey key = Enum.valueOf(ParameterKey.class, keyStr);
 
 		try {
 			Object param = applicationBusinessService.getParameter(key);
@@ -63,7 +62,7 @@ public class ParameterRestService {
     public Response addParameter(@PathParam("key") String keyStr) {
 		Response response;
 		try {
-			ParameterKey key = EnumUtils.valueOf(ParameterKey.class, keyStr);
+			ParameterKey key = Enum.valueOf(ParameterKey.class, keyStr);
 			Parameter param = new Parameter();
 
 			param.setKey(key);

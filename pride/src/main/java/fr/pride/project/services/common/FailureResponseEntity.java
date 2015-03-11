@@ -11,7 +11,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
- * RÃ©ponse KO pour les services <code>restful</code>
+ * Réponse KO pour les services restful
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -52,8 +52,8 @@ public class FailureResponseEntity {
 		/**
 		 * Construction de la classe
 		 * 
-		 * @return nouvelle entitÃ©e
-		 * @throws IllegalStateException en cas de donnÃ©es invalides
+		 * @return nouvelle entitée
+		 * @throws IllegalStateException en cas de données invalides
 		 */
 		public FailureResponseEntity build() {
 			if (code == null) {

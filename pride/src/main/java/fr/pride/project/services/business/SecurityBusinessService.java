@@ -32,7 +32,7 @@ public class SecurityBusinessService {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(SecurityBusinessService.class);
 	
-	/** DurÃ©e de validitÃ© du token en minutes */
+	/** Durée de validité du token en minutes */
 	private static final long TOKEN_DURATION = Configuration.getTokenDuration();
 	
 	/** Cache des tokens */
@@ -56,9 +56,9 @@ public class SecurityBusinessService {
 	}
 
 	public String newToken() throws BaseException {
-		LOGGER.info("GÃ©nÃ©ration d'un nouveau token");
+		LOGGER.info("Génération d'un nouveau token");
 		
-		// Credentials OK, gÃ©nÃ©ration d'un nouveau token
+		// Credentials OK, génération d'un nouveau token
 		UUID uuid = UUID.randomUUID();
 		String token = uuid.toString();
 		TOKEN_CACHE.put(token, uuid);

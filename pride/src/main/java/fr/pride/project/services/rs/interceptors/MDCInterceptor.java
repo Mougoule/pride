@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import fr.pride.project.application.PrideMDC;
 
 /**
- * Intercepteur ajoutant la mÃ©thode et le path aux logs
+ * Intercepteur ajoutant la méthode et le path aux logs
  * 
  *
  */
@@ -21,7 +21,7 @@ public class MDCInterceptor extends AbstractPhaseInterceptor<Message> {
 	private static final Logger LOGGER = LoggerFactory.getLogger(MDCInterceptor.class);
 	
 	/**
-	 * L'intercepteur est invoquÃ© le plus tÃ´t possible
+	 * L'intercepteur est invoqué le plus tôt possible
 	 */
 	public MDCInterceptor() {
 		super(Phase.RECEIVE);
@@ -29,7 +29,7 @@ public class MDCInterceptor extends AbstractPhaseInterceptor<Message> {
 
 	@Override
 	public void handleMessage(Message message) throws Fault {
-		// On ajoute la mÃ©thode et le chemin de l'appel au MDC pour les logs
+		// On ajoute la méthode et le chemin de l'appel au MDC pour les logs
 		PrideMDC.of((String) message.get(Message.HTTP_REQUEST_METHOD), (String) message.get(Message.PATH_INFO));
 	}
 	

@@ -1,7 +1,7 @@
 package fr.pride.project.model.beans;
 
 /**
- * Clées de la table paramètres
+ * Clefs de la table param�tres
  * 
  *
  */

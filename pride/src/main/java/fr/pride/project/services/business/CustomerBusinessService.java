@@ -48,7 +48,7 @@ public class CustomerBusinessService {
 	 */
 	@Transactional
 	public Customer createCustomer(Customer input) throws BaseException {
-		LOGGER.info("crÃ©ation d'un utilisateur");
+		LOGGER.info("création d'un utilisateur");
 		Assert.notNull(input);
 		Customer response;
 		Long amt = (Long) em.createNamedQuery("Customer.countByLogin")
@@ -215,16 +215,16 @@ public class CustomerBusinessService {
 						.setParameter("CUSTOMER_ID", customerId)
 						.getSingleResult();
 			} catch (NoResultException e) {
-				// entity non trouvÃ©e dans la base
+				// entity non trouvée dans la base
 			} catch (NonUniqueResultException e) {
-				// plusieurs entitÃ©es avec la mÃªme id
+				// plusieurs entitées avec la mÃªme id
 			}
 		}
 		return response;
 	}
 
 	/*
-	 * VÃ©rifie si le client avec l'id specifiÃ© existe dans la base. Evidement
+	 * Vérifie si le client avec l'id specifié existe dans la base. Evidement
 	 * c'est plus rapide de faire une <code>count</code> que faire un
 	 * <code>findById(id)</code>
 	 */

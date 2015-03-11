@@ -8,16 +8,16 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
- * RÃ©ponse OK pour les services <code>restful</code>
+ * Réponse OK pour les services <code>restful</code>
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SuccessfulResponseEntity {
 
-	/** si l'operation a Ã©tÃ© correcte */
+	/** si l'operation a été correcte */
 	private final boolean success;
 	
-	/** ontenu de la  rÃ©ponse */
+	/** ontenu de la  réponse */
 	private final Object data;
 
 	private SuccessfulResponseEntity(boolean success, Object input) {
@@ -35,7 +35,7 @@ public class SuccessfulResponseEntity {
 
 		/**
 		 * Construction de la classe
-		 * @return nouvelle entitÃ©e
+		 * @return nouvelle entitée
 		 */
 		public SuccessfulResponseEntity build() {
 			return new SuccessfulResponseEntity(this.success, this.data);
