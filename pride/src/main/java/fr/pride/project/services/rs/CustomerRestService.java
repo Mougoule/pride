@@ -1,28 +1,12 @@
 package fr.pride.project.services.rs;
 
-import java.util.Collection;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Response;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import fr.pride.project.model.Customer;
-import fr.pride.project.model.Invoice;
 import fr.pride.project.services.business.CustomerBusinessService;
-import fr.pride.project.services.business.exceptions.BaseException;
-import fr.pride.project.services.business.exceptions.BusinessException;
-import fr.pride.project.services.common.CustomError;
-import fr.pride.project.services.rs.helpers.RestServiceHelper;
 
 /**
  * Implementation du service {@link CustomerRestService} Il se base dans les
@@ -47,7 +31,7 @@ public class CustomerRestService {
      * @param customer client à créer
      * @return information du client créé
      */
-    @POST
+  /*  @POST
     @Produces("application/json")
     @Consumes("application/json")
     @Path("")
@@ -60,14 +44,14 @@ public class CustomerRestService {
 			response = RestServiceHelper.handleFailureResponse(e);
 		}
 		return response;
-	}
+	}*/
 
 	/**
      * Mise à jour du client
      * @param customer client � modifier
      * @return info du client modifi�
      */
-    @PUT
+   /* @PUT
     @Produces("application/json")
     @Consumes("application/json")
     @Path("/{input}")
@@ -82,14 +66,14 @@ public class CustomerRestService {
 			response = RestServiceHelper.handleFailureResponse(e);
 		}
 		return response;
-	}
+	}*/
 
     /**
      * Desactivation du client
      * @param customerId client a desactiver
      * @return contenu du client desactivé
      */
-    @DELETE
+    /*@DELETE
     @Produces("application/json")
     @Consumes("application/json")
     @Path("/{input}")
@@ -104,14 +88,14 @@ public class CustomerRestService {
 			response = RestServiceHelper.handleFailureResponse(e);
 		}
 		return response;
-	}
+	}*/
 
 	/**
      * recherche du client par id
      * @param customerId identification du client à chercher ou <code>null</code>
      * @return information du client
      */
-    @GET
+   /* @GET
     @Path("/{input}")
     @Produces("application/json")
     public Response getCustomerByMail(@PathParam("input") String input) {
@@ -127,14 +111,14 @@ public class CustomerRestService {
 			response = RestServiceHelper.handleFailureResponse(be);
 		}
 		return response;
-	}
+	}*/
 
     /**
      * recherche des factures du client
      * @param customerId idenitfication du client
      * @return liste de factures du client ou vide s'ils n'existent pas ou le client est invalide
      */
-    @GET
+    /*@GET
     @Path("/{input}/invoices")
     @Produces("application/json")
     public Response getInvoicesByCustomerMail(@PathParam("input") String input) {
@@ -151,7 +135,7 @@ public class CustomerRestService {
 			response = RestServiceHelper.handleFailureResponse(be);
 		}
 		return response;
-	}
+	}*/
 
     /**
      * recherche d'une facture du client
@@ -159,7 +143,7 @@ public class CustomerRestService {
      * @param invoiceId identification de la facture
      * @return liste une facture du client
      */
-    @GET
+    /*@GET
     @Path("/{customerId}/invoices/{invoiceId}")
     @Produces("application/json")
     public Response getInvoicesByIdAndCustomer(@PathParam("customerId") String customer, @PathParam("invoiceId") String invoice) {
@@ -179,6 +163,6 @@ public class CustomerRestService {
 			response = RestServiceHelper.handleFailureResponse(be);
 		}
 		return response;
-	}
+	}*/
 
 }

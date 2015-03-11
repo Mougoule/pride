@@ -13,10 +13,10 @@ public enum CustomError implements BusinessError {
 	/* Erreurs de securité */
 	ERROR_SECURITY_INVALID_CREDENTIALS("SEC_02"),
 	
-	/* Erreurs du client */
-	ERROR_CUSTOMER_GENERIC("CLI_00"),
-	ERROR_CUSTOMER_INVALID_DATA("CLI_01"),
-	ERROR_CUSTOMER_ALREADY_EXISTS("CLI_02");
+	/* Erreurs de l'utilisaeur */
+	ERROR_UTILISATEUR_GENERIC("UTI_00"),
+	ERROR_UTILISATEUR_NOT_FOUND("UTI_01"),
+	ERROR_UTILISATEUR_ALREADY_EXISTS("UTI_02");
 
 	/** Code de l'erreur */
 	final String code;

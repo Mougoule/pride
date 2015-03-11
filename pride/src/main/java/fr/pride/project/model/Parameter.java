@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import fr.pride.project.model.beans.ParameterKey;
 
 /**
- * ParamÃ¨tre applciatif
+ * Paramètre applciatif
  * 
  *
  */
