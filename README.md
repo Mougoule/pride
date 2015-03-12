@@ -1,4 +1,5 @@
 Les trucs à faire :
+
 	- Gérer l'accès concurentiel : créer une technical erreur ERREUR_ROW_MODIFIED (TEC_XX) qu'on lance quand on catch l'erreur : org.hibernate.StaleObjectStateException lors d'un update ou delete.
 
 
