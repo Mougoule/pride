@@ -43,9 +43,6 @@
 	<jaxrs:server id="services" address="/rs">
 		<jaxrs:serviceBeans>
 			<bean
-				class="fr.pride.project.services.rs.CustomerRestService">
-			</bean>
-			<bean
 				class="fr.pride.project.services.rs.ParameterRestService">
 			</bean>
 			<bean
@@ -54,6 +51,12 @@
 			<bean
 				class="fr.pride.project.services.rs.UtilisateurRestService">
 			</bean>
+			<bean
+				class="fr.pride.project.services.rs.ProjetRestService">
+			</bean>
+			<!-- <bean
+				class="fr.pride.project.services.rs.EquipeRestService">
+			</bean>  -->
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
 			<bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />

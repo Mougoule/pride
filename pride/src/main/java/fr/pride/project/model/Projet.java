@@ -1,7 +1,7 @@
 package fr.pride.project.model;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,9 +18,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 @Table(name = "projet")
 @Entity
-@NamedQueries({ @NamedQuery(name = "Projet.findAll", query = "SELECT p FROM Projet p"), })
+@NamedQueries({ @NamedQuery(name = "Projet.findAll", query = "SELECT p FROM Projet p"),
+				@NamedQuery(name = "Projet.findByNomProjet", query = "SELECT p FROM Projet p WHERE p.nomProjet = :NOM"),
+		})
 @XmlRootElement(name = "projet")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Projet implements Serializable {
@@ -34,15 +38,18 @@ public class Projet implements Serializable {
 	@Column(columnDefinition = "TEXT")
 	private String description;
 
+	@Column(length = 1)
+	private int noteProjet;
+
 	/** Lob signal qu'il s'agit d'un grand blob */
 	@Lob
 	@Column
 	private byte[] image;
 
-	@OneToMany(targetEntity = Commentaire.class, mappedBy = "projet", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<Commentaire> commentaires;
+	@OneToMany(targetEntity = Commentaire.class, mappedBy = "projet", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<Commentaire> commentaires;
 
-	@OneToOne(targetEntity = Equipe.class, mappedBy = "projet", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToOne(targetEntity = Equipe.class, mappedBy = "projet", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Equipe equipe;
 
 	public String getNomProjet() {
@@ -69,19 +76,29 @@ public class Projet implements Serializable {
 		this.image = image;
 	}
 
-	public List<Commentaire> getCommentaires() {
+	@JsonIgnore
+	public Set<Commentaire> getCommentaires() {
 		return commentaires;
 	}
 
-	public void setCommentaires(List<Commentaire> commentaires) {
+	public void setCommentaires(Set<Commentaire> commentaires) {
 		this.commentaires = commentaires;
 	}
 
+	@JsonIgnore
 	public Equipe getEquipe() {
 		return equipe;
 	}
 
 	public void setEquipe(Equipe equipe) {
 		this.equipe = equipe;
+	}
+
+	public int getNoteProjet() {
+		return noteProjet;
+	}
+
+	public void setNoteProjet(int noteProjet) {
+		this.noteProjet = noteProjet;
 	}
 }

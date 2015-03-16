@@ -3,11 +3,11 @@ package fr.pride.project.services.business;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import fr.pride.project.model.Utilisateur;
 import fr.pride.project.services.business.exceptions.BaseException;
@@ -18,7 +18,7 @@ import fr.pride.project.services.common.CustomError;
 public class UtilisateurBusinessService {
 
 	/** Logger */
-	private static final Logger LOGGER = LoggerFactory.getLogger(CustomerBusinessService.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(UtilisateurBusinessService.class);
 
 	/** Entity Manager */
 	@PersistenceContext
@@ -52,8 +52,8 @@ public class UtilisateurBusinessService {
 	@Transactional
 	public void inscrireUtilisateur(Utilisateur utilisateur) throws BaseException {
 		String login = utilisateur.getLogin();
-		LOGGER.info("Inscription de l'utilisateur : {}", login);
 		Utilisateur response = getUtilisateurByLogin(login);
+		LOGGER.info("Inscription de l'utilisateur : {}", login);
 		if (response != null) {
 			throw new BusinessException(CustomError.ERROR_UTILISATEUR_ALREADY_EXISTS,
 					"Impossible de créer l'utilisateur, ce login est déjà utilisé : " + login);
@@ -84,14 +84,19 @@ public class UtilisateurBusinessService {
 	 * Permet la modification d'un utilisateur trouvé par son login (seul le
 	 * password, l'email et le pseudo peuvent être modifier)
 	 * 
-	 * @param login le login de l'utilisateur
-	 * @param password le nouveau password (ou l'ancien)
-	 * @param email le nouvel email (ou l'ancien)
-	 * @param pseudo le nouveau pseudo (ou l'ancien
-	 * @throws BaseException si l'utilisateur n'a pas été trouvé
+	 * @param login
+	 *            le login de l'utilisateur
+	 * @param password
+	 *            le nouveau password (ou l'ancien)
+	 * @param email
+	 *            le nouvel email (ou l'ancien)
+	 * @param pseudo
+	 *            le nouveau pseudo (ou l'ancien
+	 * @throws BaseException
+	 *             si l'utilisateur n'a pas été trouvé
 	 */
-	public void modifierUtilisateur(String login, String password, String email, String pseudo)
-			throws BaseException {
+	@Transactional
+	public void modifierUtilisateur(String login, String password, String email, String pseudo) throws BaseException {
 
 		LOGGER.info("Inscription de l'utilisateur : {}", login);
 		Utilisateur ancienUtilisateur = getUtilisateurByLogin(login);

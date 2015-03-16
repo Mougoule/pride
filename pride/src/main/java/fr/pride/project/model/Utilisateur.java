@@ -1,7 +1,7 @@
 package fr.pride.project.model;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,6 +15,8 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 @Table(name = "utilisateur")
 @Entity
@@ -41,11 +43,11 @@ public class Utilisateur implements Serializable {
 	@Column(nullable = false, length = 255)
 	private String pseudo;
 
-	@OneToMany(targetEntity = Commentaire.class, mappedBy = "utilisateur", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<Commentaire> commentaires;
+	@OneToMany(targetEntity = Commentaire.class, mappedBy = "utilisateur", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<Commentaire> commentaires;
 	
-	@OneToMany(targetEntity = Equipe.class, mappedBy = "utilisateur", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<Equipe> equipes;
+	@OneToMany(targetEntity = Equipe.class, mappedBy = "utilisateur", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<Equipe> equipes;
 
 	public String getLogin() {
 		return login;
@@ -79,19 +81,21 @@ public class Utilisateur implements Serializable {
 		this.pseudo = pseudo;
 	}
 
-	public List<Commentaire> getCommentaires() {
+	@JsonIgnore
+	public Set<Commentaire> getCommentaires() {
 		return commentaires;
 	}
 
-	public void setCommentaires(List<Commentaire> commentaires) {
+	public void setCommentaires(Set<Commentaire> commentaires) {
 		this.commentaires = commentaires;
 	}
 
-	public List<Equipe> getEquipes() {
+	@JsonIgnore
+	public Set<Equipe> getEquipes() {
 		return equipes;
 	}
 
-	public void setEquipes(List<Equipe> equipes) {
+	public void setEquipes(Set<Equipe> equipes) {
 		this.equipes = equipes;
 	}
 }

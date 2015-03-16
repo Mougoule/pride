@@ -1,5 +1,7 @@
 package fr.pride.project.services.rs;
 
+import java.util.Date;
+
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -12,7 +14,11 @@ import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import fr.pride.project.model.Commentaire;
+import fr.pride.project.model.CommentaireId;
 import fr.pride.project.model.Utilisateur;
+import fr.pride.project.services.business.CommentaireBusinessService;
+import fr.pride.project.services.business.ProjetBusinessService;
 import fr.pride.project.services.business.UtilisateurBusinessService;
 import fr.pride.project.services.business.exceptions.BaseException;
 import fr.pride.project.services.rs.helpers.RestServiceHelper;
@@ -22,6 +28,12 @@ public class UtilisateurRestService {
 
 	@Autowired
 	private UtilisateurBusinessService utilisateurBusinessService;
+	
+	@Autowired
+	private ProjetBusinessService projetBusinessService;
+	
+	@Autowired
+	private CommentaireBusinessService commentaireBusinessService;
 
 	/**
 	 * Web service de récupération d'un utilisateur par son login.
@@ -43,7 +55,7 @@ public class UtilisateurRestService {
 
 	/**
 	 * Web service d'inscription d'un utilisateur.
-	 * On utilise une requête HTTP avec la méthode PSOT. Les données sont passées par un FormParam.
+	 * On utilise une requête HTTP avec la méthode POST. Les données sont passées par un FormParam.
 	 * 
 	 * @param login le login de l'utilisateur
 	 * @param password son password
@@ -116,6 +128,44 @@ public class UtilisateurRestService {
 
 		try {
 			utilisateurBusinessService.modifierUtilisateur(login, password, email, pseudo);
+			response = RestServiceHelper.handleSuccessfulResponse(true);
+		} catch (BaseException e) {
+			response = RestServiceHelper.handleFailureResponse(e);
+		}
+		return response;
+	}
+	
+	/**
+	 * Web service pour commenter
+	 * On utilise une requête HTTP avec la méthode POST. Les données sont passées par un FormParam.
+	 * 
+	 * @param login le login de l'utilisateur
+	 * @param nomProjet le nom du projet à commenter
+	 * @param texte le contenu du commentaire
+	 * @return true si créé, une exception sinon
+	 */
+	@POST
+	@Produces("application/json")
+	@Path("/commenter")
+	public Response commenter(@FormParam("login") String login, @FormParam("nomProjet") String nomProjet,
+			@FormParam("texte") String texte) {
+
+		Response response;
+		
+		CommentaireId commentaireId = new CommentaireId();
+		commentaireId.setIdProjet(nomProjet);
+		commentaireId.setIdUtilisateur(login);
+		
+		Commentaire commentaire = new Commentaire();
+		commentaire.setId(commentaireId);
+		commentaire.setTexte(texte);
+		commentaire.setDate(new Date());
+		commentaire.setNoteCommentaire(0);
+		commentaire.setProjet(projetBusinessService.getProjetByNomProjet(nomProjet));
+		commentaire.setUtilisateur(utilisateurBusinessService.getUtilisateurByLogin(login));
+
+		try {
+			commentaireBusinessService.creerCommentaire(commentaire);
 			response = RestServiceHelper.handleSuccessfulResponse(true);
 		} catch (BaseException e) {
 			response = RestServiceHelper.handleFailureResponse(e);
