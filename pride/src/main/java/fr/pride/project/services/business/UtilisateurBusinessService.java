@@ -60,7 +60,7 @@ public class UtilisateurBusinessService {
 	 *             si le login est déjà utilisé
 	 */
 	@Transactional
-	public void inscrireUtilisateur(Utilisateur utilisateur) throws BaseException {
+	public Utilisateur inscrireUtilisateur(Utilisateur utilisateur) throws BaseException {
 		String login = utilisateur.getLogin();
 		Utilisateur response = getUtilisateurByLogin(login);
 		if (response != null) {
@@ -77,6 +77,8 @@ public class UtilisateurBusinessService {
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 			throw new TechnicalException("Impossible de créer l'utilisateur", "Impossible de hasher le mot de passe", e);
 		}
+		
+		return utilisateur;
 	}
 
 	/**

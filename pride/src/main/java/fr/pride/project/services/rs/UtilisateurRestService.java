@@ -76,7 +76,7 @@ public class UtilisateurRestService {
 			bean = utilisateurBusinessService.connexion(login, password);
 			response = RestServiceHelper.handleSuccessfulResponse(bean);
 		} catch (BaseException e) {
-			response = RestServiceHelper.handleFailureResponse(null);
+			response = RestServiceHelper.handleFailureResponse(e);
 		}
 		
 		return response;
@@ -106,8 +106,8 @@ public class UtilisateurRestService {
 		utilisateur.setPseudo(pseudo);
 
 		try {
-			utilisateurBusinessService.inscrireUtilisateur(utilisateur);
-			response = RestServiceHelper.handleSuccessfulResponse(true);
+			utilisateur = utilisateurBusinessService.inscrireUtilisateur(utilisateur);
+			response = RestServiceHelper.handleSuccessfulResponse(utilisateur);
 		} catch (BaseException e) {
 			response = RestServiceHelper.handleFailureResponse(e);
 		}
