@@ -15,6 +15,7 @@ import fr.pride.project.model.Commentaire;
 import fr.pride.project.model.Projet;
 import fr.pride.project.services.business.exceptions.BusinessException;
 import fr.pride.project.services.common.CustomError;
+import fr.pride.project.services.rs.annotations.Tokenized;
 
 @Service
 public class CommentaireBusinessService {
@@ -32,6 +33,7 @@ public class CommentaireBusinessService {
 	@PersistenceContext
 	private EntityManager em;
 	
+	@Tokenized
 	@Transactional
 	public void creerCommentaire(Commentaire commentaire) throws BusinessException{
 		String login = commentaire.getUtilisateur().getLogin();
@@ -49,6 +51,7 @@ public class CommentaireBusinessService {
 		em.merge(commentaire);
 	}
 
+	@Tokenized
 	public List<Commentaire> getCommentaireByProjet(Projet projet) {
 		LOGGER.info("Récupération des commentaires pour le projet {}", projet.getNomProjet());
 		List<Commentaire> commentaires = em.createNamedQuery("Commentaire.findAllByProjet", Commentaire.class).setParameter("PROJET", projet).getResultList();

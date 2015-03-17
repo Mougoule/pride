@@ -17,10 +17,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import fr.pride.project.model.Commentaire;
 import fr.pride.project.model.CommentaireId;
 import fr.pride.project.model.Utilisateur;
+import fr.pride.project.model.beans.Connexion;
 import fr.pride.project.services.business.CommentaireBusinessService;
 import fr.pride.project.services.business.ProjetBusinessService;
 import fr.pride.project.services.business.UtilisateurBusinessService;
 import fr.pride.project.services.business.exceptions.BaseException;
+import fr.pride.project.services.rs.annotations.Tokenized;
 import fr.pride.project.services.rs.helpers.RestServiceHelper;
 
 @Path("/utilisateurs")
@@ -42,6 +44,7 @@ public class UtilisateurRestService {
 	 * @param login le login de l'utilisateur
 	 * @return l'utilisateur ou null si rien
 	 */
+	@Tokenized
 	@GET
 	@Produces("application/json")
 	@Path("/{login}")
@@ -50,6 +53,32 @@ public class UtilisateurRestService {
 		Response response;
 		Utilisateur utilisateur = utilisateurBusinessService.getUtilisateurByLogin(login);
 		response = RestServiceHelper.handleSuccessfulResponse(utilisateur);
+		return response;
+	}
+	
+	/**
+	 * Web service de connexion d'un utilisateur par son login et son mot de passe.
+	 * 
+	 * @param login le login de l'utilisateur
+	 * @param password le password de l'utilisateur
+	 * 
+	 * @return l'utilisateur et le token ou null si rien
+	 */
+	@POST
+	@Produces("application/json")
+	@Path("/connect")
+	public Response connexion(@FormParam("login") String login, @FormParam("password") String password) {
+
+		Response response;
+		Connexion bean;
+		
+		try {
+			bean = utilisateurBusinessService.connexion(login, password);
+			response = RestServiceHelper.handleSuccessfulResponse(bean);
+		} catch (BaseException e) {
+			response = RestServiceHelper.handleFailureResponse(null);
+		}
+		
 		return response;
 	}
 
@@ -118,6 +147,7 @@ public class UtilisateurRestService {
 	 * @param pseudo son pseudo
 	 * @return true si la modification est un succès, une exception sinon (utilisateur non existant)
 	 */
+	@Tokenized
 	@PUT
 	@Produces("application/json")
 	@Path("")
@@ -144,6 +174,7 @@ public class UtilisateurRestService {
 	 * @param texte le contenu du commentaire
 	 * @return true si créé, une exception sinon
 	 */
+	@Tokenized
 	@POST
 	@Produces("application/json")
 	@Path("/commenter")

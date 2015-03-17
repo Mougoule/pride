@@ -16,6 +16,7 @@ import fr.pride.project.model.Projet;
 import fr.pride.project.model.Utilisateur;
 import fr.pride.project.services.business.exceptions.BusinessException;
 import fr.pride.project.services.common.CustomError;
+import fr.pride.project.services.rs.annotations.Tokenized;
 
 @Service
 public class EquipeBusinessService {
@@ -33,6 +34,7 @@ public class EquipeBusinessService {
 	@PersistenceContext
 	private EntityManager em;
 
+	@Tokenized
 	public Equipe getEquipe(Utilisateur utilisateur, Projet projet) {
 		LOGGER.info("Récupération d'une équipe par son identifiant : {}, {}", utilisateur.getLogin(),
 				projet.getNomProjet());
@@ -45,6 +47,7 @@ public class EquipeBusinessService {
 		}
 	}
 
+	@Tokenized
 	@Transactional
 	public Equipe createEquipe(String login, String nomProjet) throws BusinessException {
 		LOGGER.info("Création d'une équipe pour le couple {} / {} : ", nomProjet, login);

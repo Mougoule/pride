@@ -14,6 +14,7 @@ import fr.pride.project.model.Equipe;
 import fr.pride.project.model.Projet;
 import fr.pride.project.services.business.exceptions.BusinessException;
 import fr.pride.project.services.common.CustomError;
+import fr.pride.project.services.rs.annotations.Tokenized;
 
 @Service
 public class ProjetBusinessService {
@@ -31,6 +32,7 @@ public class ProjetBusinessService {
 	@PersistenceContext
 	private EntityManager em;
 	
+	@Tokenized
 	public Projet getProjetByNomProjet(String nomProjet){
 		LOGGER.info("Récupération d'un projet par son nom : {}", nomProjet);
 		try {
@@ -41,6 +43,7 @@ public class ProjetBusinessService {
 		}
 	}
 
+	@Tokenized
 	@Transactional
 	public void creerProjet(String login, String nomProjet, String description) throws BusinessException {
 		LOGGER.info("Création d'un projet : {}, par : {}", nomProjet, login);
