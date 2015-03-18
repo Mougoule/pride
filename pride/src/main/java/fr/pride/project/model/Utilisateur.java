@@ -31,7 +31,7 @@ public class Utilisateur implements Serializable {
 	private static final long serialVersionUID = 2227963945073192419L;
 	
 	@Id
-	@Column(nullable = false, unique = true, length = 255)
+	@Column(length = 255)
 	private String login;
 	
 	@Column(nullable = false, length = 255)

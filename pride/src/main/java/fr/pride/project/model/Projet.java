@@ -12,7 +12,6 @@ import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -32,7 +31,7 @@ public class Projet implements Serializable {
 	private static final long serialVersionUID = -294546755847949144L;
 
 	@Id
-	@Column(name = "nom_projet", unique = true, nullable = false, length = 255)
+	@Column(name = "nom_projet", length = 255)
 	private String nomProjet;
 
 	@Column(columnDefinition = "TEXT")
@@ -49,8 +48,8 @@ public class Projet implements Serializable {
 	@OneToMany(targetEntity = Commentaire.class, mappedBy = "projet", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Commentaire> commentaires;
 
-	@OneToOne(targetEntity = Equipe.class, mappedBy = "projet", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private Equipe equipe;
+	@OneToMany(targetEntity = Equipe.class, mappedBy = "projet", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<Equipe> equipes;
 
 	public String getNomProjet() {
 		return nomProjet;
@@ -84,14 +83,13 @@ public class Projet implements Serializable {
 	public void setCommentaires(Set<Commentaire> commentaires) {
 		this.commentaires = commentaires;
 	}
-
-	@JsonIgnore
-	public Equipe getEquipe() {
-		return equipe;
+	
+	public Set<Equipe> getEquipes() {
+		return equipes;
 	}
 
-	public void setEquipe(Equipe equipe) {
-		this.equipe = equipe;
+	public void setEquipes(Set<Equipe> equipes) {
+		this.equipes = equipes;
 	}
 
 	public int getNoteProjet() {

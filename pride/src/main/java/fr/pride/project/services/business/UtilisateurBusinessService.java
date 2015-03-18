@@ -2,6 +2,8 @@ package fr.pride.project.services.business;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -13,12 +15,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import fr.pride.project.model.Equipe;
+import fr.pride.project.model.Projet;
 import fr.pride.project.model.Utilisateur;
 import fr.pride.project.model.beans.Connexion;
 import fr.pride.project.services.business.exceptions.BaseException;
 import fr.pride.project.services.business.exceptions.BusinessException;
 import fr.pride.project.services.business.exceptions.TechnicalException;
 import fr.pride.project.services.common.CustomError;
+import fr.pride.project.services.rs.annotations.Tokenized;
 import fr.pride.project.services.utils.PasswordUtils;
 
 @Service
@@ -59,6 +64,7 @@ public class UtilisateurBusinessService {
 	 * @throws BaseException
 	 *             si le login est déjà utilisé
 	 */
+	@Tokenized
 	@Transactional
 	public Utilisateur inscrireUtilisateur(Utilisateur utilisateur) throws BaseException {
 		String login = utilisateur.getLogin();
@@ -89,6 +95,7 @@ public class UtilisateurBusinessService {
 	 * @throws BaseException
 	 *             si l'utilisateur n'est pas trouvé
 	 */
+	@Tokenized
 	@Transactional
 	public void desinscrireUtilisateur(String login) throws BaseException {
 		LOGGER.info("Désinscription de l'utilisateur : {}", login);
@@ -115,6 +122,7 @@ public class UtilisateurBusinessService {
 	 * @throws BaseException
 	 *             si l'utilisateur n'a pas été trouvé
 	 */
+	@Tokenized
 	@Transactional
 	public void modifierUtilisateur(String login, String password, String email, String pseudo) throws BaseException {
 
@@ -138,7 +146,7 @@ public class UtilisateurBusinessService {
 		utilisateur = getUtilisateurByLogin(login);
 
 		if (utilisateur == null) {
-			throw new BusinessException(CustomError.ERROR_UTILISATEUR_CONNEXION, "Login ou mot de passe incorrect");
+			throw new BusinessException(CustomError.ERROR_UTILISATEUR_NOT_FOUND, "Aucun utilisateur pour ce login : " + login);
 		}
 
 		try {
@@ -162,5 +170,24 @@ public class UtilisateurBusinessService {
 		connexion.setToken(token);
 
 		return connexion;
+	}
+	
+	@Tokenized
+	public List<Projet> getProjets (String login) throws BaseException {
+		LOGGER.info("Récupération des projets de l'utilisateur : {}", login);
+		Utilisateur utilisateur;
+		utilisateur = getUtilisateurByLogin(login);
+
+		if (utilisateur == null) {
+			throw new BusinessException(CustomError.ERROR_UTILISATEUR_NOT_FOUND, "Aucun utilisateur pour ce login : " + login);
+		}
+
+		List<Projet> projets = new ArrayList<Projet>();
+
+		for(Equipe eq : utilisateur.getEquipes()){
+			projets.add(eq.getProjet());
+		}
+		
+		return projets;
 	}
 }

@@ -1,6 +1,7 @@
 package fr.pride.project.services.rs;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
@@ -16,13 +17,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import fr.pride.project.model.Commentaire;
 import fr.pride.project.model.CommentaireId;
+import fr.pride.project.model.Projet;
 import fr.pride.project.model.Utilisateur;
 import fr.pride.project.model.beans.Connexion;
 import fr.pride.project.services.business.CommentaireBusinessService;
 import fr.pride.project.services.business.ProjetBusinessService;
 import fr.pride.project.services.business.UtilisateurBusinessService;
 import fr.pride.project.services.business.exceptions.BaseException;
-import fr.pride.project.services.rs.annotations.Tokenized;
 import fr.pride.project.services.rs.helpers.RestServiceHelper;
 
 @Path("/utilisateurs")
@@ -44,7 +45,6 @@ public class UtilisateurRestService {
 	 * @param login le login de l'utilisateur
 	 * @return l'utilisateur ou null si rien
 	 */
-	@Tokenized
 	@GET
 	@Produces("application/json")
 	@Path("/{login}")
@@ -83,7 +83,7 @@ public class UtilisateurRestService {
 	}
 
 	/**
-	 * Web service d'inscription d'un utilisateur.
+	 * Web service d'ription d'un utilisateur.
 	 * On utilise une requête HTTP avec la méthode POST. Les données sont passées par un FormParam.
 	 * 
 	 * @param login le login de l'utilisateur
@@ -147,7 +147,6 @@ public class UtilisateurRestService {
 	 * @param pseudo son pseudo
 	 * @return true si la modification est un succès, une exception sinon (utilisateur non existant)
 	 */
-	@Tokenized
 	@PUT
 	@Produces("application/json")
 	@Path("")
@@ -174,7 +173,6 @@ public class UtilisateurRestService {
 	 * @param texte le contenu du commentaire
 	 * @return true si créé, une exception sinon
 	 */
-	@Tokenized
 	@POST
 	@Produces("application/json")
 	@Path("/commenter")
@@ -198,6 +196,29 @@ public class UtilisateurRestService {
 		try {
 			commentaireBusinessService.creerCommentaire(commentaire);
 			response = RestServiceHelper.handleSuccessfulResponse(true);
+		} catch (BaseException e) {
+			response = RestServiceHelper.handleFailureResponse(e);
+		}
+		return response;
+	}
+	
+	/**
+	 * Web service pour récupérer les projets d'un utilisateur
+	 * 
+	 * @param login le login de l'utilisateur
+	 * @return les projets, une exception sinon
+	 */
+	@GET
+	@Produces("application/json")
+	@Path("/projet/{login}")
+	public Response getProjetByLogin(@PathParam("login") String login) {
+
+		Response response;
+		List<Projet> projets;
+		
+		try {
+			projets = utilisateurBusinessService.getProjets(login);
+			response = RestServiceHelper.handleSuccessfulResponse(projets);
 		} catch (BaseException e) {
 			response = RestServiceHelper.handleFailureResponse(e);
 		}

@@ -7,7 +7,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -20,6 +19,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 @NamedQueries({
 		@NamedQuery(name = "Equipe.findAll", query = "SELECT e FROM Equipe e"),
 		@NamedQuery(name = "Equipe.findById", query = "SELECT e FROM Equipe e WHERE e.projet = :PROJET AND e.utilisateur = :UTILISATEUR"),
+		@NamedQuery(name = "Equipe.findByProjet", query = "SELECT e FROM Equipe e WHERE e.projet = :PROJET"),
 })
 @XmlRootElement(name = "equipe")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -33,8 +33,8 @@ public class Equipe {
 	@MapsId("idUtilisateur")
 	private Utilisateur utilisateur;
 	
-	@OneToOne
-	@JoinColumn(name = "id_projet", nullable = false, insertable = false, updatable = false)
+	@ManyToOne
+	@JoinColumn(name = "id_projet", nullable = false)
 	@MapsId("idProjet")
 	private Projet projet;
 

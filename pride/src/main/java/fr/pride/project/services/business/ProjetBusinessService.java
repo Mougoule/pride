@@ -1,5 +1,8 @@
 package fr.pride.project.services.business;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -63,9 +66,10 @@ public class ProjetBusinessService {
 		projet.setNoteProjet(0);
 		em.persist(projet);
 		
-		Equipe equipe = equipeBusinessService.createEquipe(login, nomProjet);
+		Set<Equipe> equipe = new HashSet<Equipe>();
+		equipe.add(equipeBusinessService.createEquipe(login, nomProjet));
 		
-		projet.setEquipe(equipe);
+		projet.setEquipes(equipe);
 		
 		em.merge(projet);
 	}

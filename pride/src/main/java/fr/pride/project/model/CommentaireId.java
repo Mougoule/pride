@@ -8,13 +8,17 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class CommentaireId implements Serializable{
 
-	private static final long serialVersionUID = -4987177142646593300L;
-	
+	private static final long serialVersionUID = -7141317978465524513L;
+
 	@Column(name = "id_utilisateur")
 	private String idUtilisateur;
 	
 	@Column(name = "id_projet")
 	private String idProjet;
+	
+	/*@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "date")
+	private Date date;*/
 
 	public String getIdUtilisateur() {
 		return idUtilisateur;
@@ -36,10 +40,8 @@ public class CommentaireId implements Serializable{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((idProjet == null) ? 0 : idProjet.hashCode());
-		result = prime * result
-				+ ((idUtilisateur == null) ? 0 : idUtilisateur.hashCode());
+		result = prime * result + ((idProjet == null) ? 0 : idProjet.hashCode());
+		result = prime * result + ((idUtilisateur == null) ? 0 : idUtilisateur.hashCode());
 		return result;
 	}
 
@@ -64,4 +66,6 @@ public class CommentaireId implements Serializable{
 			return false;
 		return true;
 	}
+
+	
 }

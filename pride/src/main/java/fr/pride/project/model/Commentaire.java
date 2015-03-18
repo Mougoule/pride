@@ -42,16 +42,17 @@ public class Commentaire {
 	@MapsId("idProjet")
 	private Projet projet;
 	
+	@Column
+	@Temporal(TemporalType.TIMESTAMP)
+	//@MapsId("date")
+	private Date dateCommentaire;
+	
 	@Column(columnDefinition = "TEXT")
 	private String texte;
 	
 	@Column(length = 1)
 	private int noteCommentaire;
 	
-	@Column
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date date;
-
 	/*
 	 * Getters and Setters
 	 */
@@ -99,10 +100,10 @@ public class Commentaire {
 	}
 
 	public Date getDate() {
-		return date;
+		return dateCommentaire;
 	}
 
 	public void setDate(Date date) {
-		this.date = date;
+		this.dateCommentaire = date;
 	}
 }
