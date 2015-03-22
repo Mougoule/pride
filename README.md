@@ -36,15 +36,23 @@ Dans la nouvelle fenêtre : "Apache" -> "Tomcat v7.0 server" -> "Next"
 Ensuite, soit on a téléchargé Tomcat à la main (ce que je conseil, c'est pour ça que je l'ai sûr ma clef usb et que je vous le passerait) et dans ce cas on clique sur "Browse" et choisit le chemin où c'est qu'il est tom le chat puis "Next", soit on clique sur "Download and install", etc... Quand c'est finit, il y a une nouvelle fenêtre qui s'affiche. Si tout va bien, dans la partie gauche on voit le projet, on le sélectionne et on clique sur "Add >" puis sur "Finish" et dans l'onglet des projets on a un nouveau projet : "Serveur" (on y touchera certainement jamais). Il faut ajouter une vue à Eclipse.
 "Windows" -> "Show view" -> "Other..." -> "Server" -> "Servers" -> "OK". Dans le panneau en bas (celui où y a la console), il y a un nouvel onglet : "Servers". Dedans il y a le "Tomcat v7.0 Server at localhost". On clique dessus et on clique sur le logo start (rond vert avec la flêche blanche). C'est comme ça qu'on démarre le projet. Quand il a démarré on peut tester le code. C'est comme pour un projet normal. Il faut le redémarrer à chaque modifs. Quand le serveur raconte de la merde illogique au démarrage, il faut faire clique droit dessus -> "Clean" -> "OK".
 
-III. Base de données (MySQL Workbench)
+III. Base de données (MySQL Workbench / MySQL Server)
 
 Pour le côté BDD, j'utilise MySQL Workbench qui est assez pratique (téléchargement : http://dev.mysql.com/downloads/workbench/).
-Une fois installer, on le lance, on clique sur le petit "+" en haut à gauche.
-Dans "Connection Name", je penses qu'on peut mettre ce que l'on veut.
-Dans "Hostname" on met "localhost".
-Dans "Port" on vérifie que c'est "3306"
-"Username" : vaut mieux laisser "root"
-"Password" : étant au taf, ils ont mis un mdp par défaut et j'ai aucune idée de comment on change ça... (d'après internet, par défaut c'est un mot de passe vide)
+
+Il faut aussi installer MySQL Server, pour ça télecharger MySQL Installer (http://dev.mysql.com/downloads/mysql/)
+On ouvre MySQL installer et on passe les écrans jusqu'à celui où on peut ajouter des choses (bouton "Add..." sur la droite). On clique sur "Add..." et là on choisit "MySQL Server" dans le panneau de gauche en cliquant sur la petite flêche verte qui va de gauche à droite. Quand c'est fait on paramètre "MySQL Server" (il faut juste choisir le mot de passe pour l'utilisateur root). Et voilà. 
+
+On installe MySQL Workbench
+Normalement pas besoin de faire ce qui suit, mais on sait jamais
+		Une fois installer, on le lance, on clique sur le petit "+" en haut à gauche.
+		Dans "Connection Name", je penses qu'on peut mettre ce que l'on veut.
+		Dans "Hostname" on met "localhost".
+		Dans "Port" on vérifie que c'est "3306"
+		"Username" : vaut mieux laisser "root"
+		"Password" : étant au taf, ils ont mis un mdp par défaut et j'ai aucune idée de comment on change
+ça... (d'après internet, par défaut c'est un mot de passe vide)
+
 Quand ça c'est fait, on se connecte en double cliquant dessus.
 Dans le panneau de gauche, il y a une partie qui s'appelle "SCHEMAS". Il faut en créer un nouveau. Clique droit -> "Create schema..." Dans la fenêtre on met le nom du schema (on met "pride" car c'est que j'ai mis dans les fichiers de confs, donc c'est comme ça et c'est tout, pas de majscule rien). On clique sur "Apply" et il est créé. Lorsque l'on lancera le projet, le projet créra les tables tout seul comme un grand.
 
