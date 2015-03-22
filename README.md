@@ -43,7 +43,9 @@ Pour le côté BDD, j'utilise MySQL Workbench qui est assez pratique (téléchar
 Il faut aussi installer MySQL Server, pour ça télecharger MySQL Installer (http://dev.mysql.com/downloads/mysql/)
 On ouvre MySQL installer et on passe les écrans jusqu'à celui où on peut ajouter des choses (bouton "Add..." sur la droite). On clique sur "Add..." et là on choisit "MySQL Server" dans le panneau de gauche en cliquant sur la petite flêche verte qui va de gauche à droite. Quand c'est fait on paramètre "MySQL Server" (il faut juste choisir le mot de passe pour l'utilisateur root). Et voilà. 
 
-On installe MySQL Workbench
+On installe MySQL Workbench.
+
+
 Normalement pas besoin de faire ce qui suit, mais on sait jamais
 		Une fois installer, on le lance, on clique sur le petit "+" en haut à gauche.
 		Dans "Connection Name", je penses qu'on peut mettre ce que l'on veut.
@@ -52,6 +54,7 @@ Normalement pas besoin de faire ce qui suit, mais on sait jamais
 		"Username" : vaut mieux laisser "root"
 		"Password" : étant au taf, ils ont mis un mdp par défaut et j'ai aucune idée de comment on change
 ça... (d'après internet, par défaut c'est un mot de passe vide)
+
 
 Quand ça c'est fait, on se connecte en double cliquant dessus.
 Dans le panneau de gauche, il y a une partie qui s'appelle "SCHEMAS". Il faut en créer un nouveau. Clique droit -> "Create schema..." Dans la fenêtre on met le nom du schema (on met "pride" car c'est que j'ai mis dans les fichiers de confs, donc c'est comme ça et c'est tout, pas de majscule rien). On clique sur "Apply" et il est créé. Lorsque l'on lancera le projet, le projet créra les tables tout seul comme un grand.
