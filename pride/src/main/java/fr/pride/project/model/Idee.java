@@ -1,5 +1,8 @@
 package fr.pride.project.model;
 
+import java.util.Date;
+
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -8,25 +11,33 @@ import javax.persistence.MapsId;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
-@Table(name = "equipe")
+@Table(name = "idee")
 @Entity
 @NamedQueries({
-		@NamedQuery(name = "Equipe.findAll", query = "SELECT e FROM Equipe e"),
-		@NamedQuery(name = "Equipe.findById", query = "SELECT e FROM Equipe e WHERE e.projet = :PROJET AND e.utilisateur = :UTILISATEUR"),
-		@NamedQuery(name = "Equipe.findByProjet", query = "SELECT e FROM Equipe e WHERE e.projet = :PROJET"),
+	@NamedQuery(name = "Idee.findByProjet", query = "SELECT i FROM Idee i WHERE i.projet.nomProjet = :NOM"),
+	@NamedQuery(name = "Idee.findByUtilisateur", query = "SELECT i FROM Idee i WHERE i.utilisateur.login = :LOGIN"),
 })
-@XmlRootElement(name = "equipe")
+@XmlRootElement(name = "idee")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Equipe {
-	
+public class Idee {
+
 	@EmbeddedId
-	private EquipeId id;
+	private IdeeId id;
+	
+	@Column(columnDefinition = "TEXT")
+	private String idee;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "date_modification_idee")
+	private Date dateModification;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_utilisateur", nullable = false)
@@ -37,23 +48,39 @@ public class Equipe {
 	@JoinColumn(name = "id_projet", nullable = false)
 	@MapsId("idProjet")
 	private Projet projet;
-
+	
 	/* Getters and Setters */
 	
-	public EquipeId getId() {
+	public IdeeId getId() {
 		return id;
 	}
 
-	public void setId(EquipeId id) {
+	public void setId(IdeeId id) {
 		this.id = id;
+	}
+	
+	public String getIdee() {
+		return idee;
+	}
+
+	public void setIdee(String idee) {
+		this.idee = idee;
+	}
+
+	public Date getDateModification() {
+		return dateModification;
+	}
+
+	public void setDateModification(Date dateModification) {
+		this.dateModification = dateModification;
 	}
 
 	@JsonIgnore
-	public Utilisateur getUtilisateurs() {
+	public Utilisateur getUtilisateur() {
 		return utilisateur;
 	}
 
-	public void setUtilisateurs(Utilisateur utilisateur) {
+	public void setUtilisateur(Utilisateur utilisateur) {
 		this.utilisateur = utilisateur;
 	}
 

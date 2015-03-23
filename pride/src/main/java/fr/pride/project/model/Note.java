@@ -11,24 +11,33 @@ import javax.persistence.MapsId;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
-@Table(name = "commentaire")
+@Table(name = "note")
 @Entity
 @NamedQueries({
-		@NamedQuery(name = "Commentaire.findAll", query = "SELECT c FROM Commentaire c"),
-		@NamedQuery(name = "Commentaire.findAllByProjet", query = "SELECT c FROM Commentaire c WHERE c.projet = :PROJET"),
+		@NamedQuery(name = "Note.findByProjet", query = "SELECT n FROM Note n WHERE n.projet.nomProjet = :NOM"),
+		@NamedQuery(name = "Note.findByUtilisateur", query = "SELECT n FROM Note n WHERE n.utilisateur.login = :LOGIN"),
 })
-@XmlRootElement(name = "commentaire")
+@XmlRootElement(name = "note")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Commentaire {
-
+public class Note {
+	
 	@EmbeddedId
-	private CommentaireId id;
+	private NoteId id;
+	
+	@Column(length = 1)
+	private int note;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "date_modification_note")
+	private Date dateModification;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_utilisateur", nullable = false)
@@ -39,23 +48,31 @@ public class Commentaire {
 	@JoinColumn(name = "id_projet", nullable = false)
 	@MapsId("idProjet")
 	private Projet projet;
-	
-	@Column(columnDefinition = "TEXT")
-	private String texte;
-	
-	@Column(name = "date_modification_commentaire")
-	private Date dateModification;
-	
-	/*
-	 * Getters and Setters
-	 */
-	
-	public CommentaireId getId() {
+
+	/* Getters and Setters */
+
+	public NoteId getId() {
 		return id;
 	}
 
-	public void setId(CommentaireId id) {
+	public void setId(NoteId id) {
 		this.id = id;
+	}
+	
+	public int getNote() {
+		return note;
+	}
+
+	public void setNote(int note) {
+		this.note = note;
+	}
+
+	public Date getDateModification() {
+		return dateModification;
+	}
+
+	public void setDateModification(Date dateModification) {
+		this.dateModification = dateModification;
 	}
 
 	@JsonIgnore
@@ -74,21 +91,5 @@ public class Commentaire {
 
 	public void setProjet(Projet projet) {
 		this.projet = projet;
-	}
-
-	public String getTexte() {
-		return texte;
-	}
-
-	public void setTexte(String texte) {
-		this.texte = texte;
-	}
-
-	public Date getDateModification() {
-		return dateModification;
-	}
-
-	public void setDateModification(Date dateModification) {
-		this.dateModification = dateModification;
 	}
 }

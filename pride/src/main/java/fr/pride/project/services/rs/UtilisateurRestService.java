@@ -21,9 +21,11 @@ import fr.pride.project.model.Projet;
 import fr.pride.project.model.Utilisateur;
 import fr.pride.project.model.beans.Connexion;
 import fr.pride.project.services.business.CommentaireBusinessService;
+import fr.pride.project.services.business.IdeeBusinessService;
 import fr.pride.project.services.business.ProjetBusinessService;
 import fr.pride.project.services.business.UtilisateurBusinessService;
 import fr.pride.project.services.business.exceptions.BaseException;
+import fr.pride.project.services.business.exceptions.BusinessException;
 import fr.pride.project.services.rs.helpers.RestServiceHelper;
 
 @Path("/utilisateurs")
@@ -31,18 +33,22 @@ public class UtilisateurRestService {
 
 	@Autowired
 	private UtilisateurBusinessService utilisateurBusinessService;
-	
+
 	@Autowired
 	private ProjetBusinessService projetBusinessService;
-	
+
+	@Autowired
+	private IdeeBusinessService ideeBusinessService;
+
 	@Autowired
 	private CommentaireBusinessService commentaireBusinessService;
 
 	/**
-	 * Web service de récupération d'un utilisateur par son login.
-	 * On utilise une requête HTTP avec la méthode GET. Le login est passé par l'URL
+	 * Web service de récupération d'un utilisateur par son login. On utilise
+	 * une requête HTTP avec la méthode GET. Le login est passé par l'URL
 	 * 
-	 * @param login le login de l'utilisateur
+	 * @param login
+	 *            le login de l'utilisateur
 	 * @return l'utilisateur ou null si rien
 	 */
 	@GET
@@ -55,12 +61,15 @@ public class UtilisateurRestService {
 		response = RestServiceHelper.handleSuccessfulResponse(utilisateur);
 		return response;
 	}
-	
+
 	/**
-	 * Web service de connexion d'un utilisateur par son login et son mot de passe.
+	 * Web service de connexion d'un utilisateur par son login et son mot de
+	 * passe.
 	 * 
-	 * @param login le login de l'utilisateur
-	 * @param password le password de l'utilisateur
+	 * @param login
+	 *            le login de l'utilisateur
+	 * @param password
+	 *            le password de l'utilisateur
 	 * 
 	 * @return l'utilisateur et le token ou null si rien
 	 */
@@ -71,25 +80,29 @@ public class UtilisateurRestService {
 
 		Response response;
 		Connexion bean;
-		
+
 		try {
 			bean = utilisateurBusinessService.connexion(login, password);
 			response = RestServiceHelper.handleSuccessfulResponse(bean);
 		} catch (BaseException e) {
 			response = RestServiceHelper.handleFailureResponse(e);
 		}
-		
+
 		return response;
 	}
 
 	/**
-	 * Web service d'ription d'un utilisateur.
-	 * On utilise une requête HTTP avec la méthode POST. Les données sont passées par un FormParam.
+	 * Web service d'ription d'un utilisateur. On utilise une requête HTTP avec
+	 * la méthode POST. Les données sont passées par un FormParam.
 	 * 
-	 * @param login le login de l'utilisateur
-	 * @param password son password
-	 * @param email son email
-	 * @param pseudo son pseudo
+	 * @param login
+	 *            le login de l'utilisateur
+	 * @param password
+	 *            son password
+	 * @param email
+	 *            son email
+	 * @param pseudo
+	 *            son pseudo
 	 * @return true si créé, une exception sinon (utilisateur non existant)
 	 */
 	@POST
@@ -103,7 +116,6 @@ public class UtilisateurRestService {
 		utilisateur.setLogin(login);
 		utilisateur.setPassword(password);
 		utilisateur.setEmail(email);
-		utilisateur.setPseudo(pseudo);
 
 		try {
 			utilisateur = utilisateurBusinessService.inscrireUtilisateur(utilisateur);
@@ -115,10 +127,12 @@ public class UtilisateurRestService {
 	}
 
 	/**
-	 * Web service de désincription d'un utilisateur grâce à son login.
-	 * On utilise une requête HTTP avec la méthode DELETE. Le login est passé par un FormParam
+	 * Web service de désincription d'un utilisateur grâce à son login. On
+	 * utilise une requête HTTP avec la méthode DELETE. Le login est passé par
+	 * un FormParam
 	 * 
-	 * @param login le login de l'utilisateur à supprimer
+	 * @param login
+	 *            le login de l'utilisateur à supprimer
 	 * @return true si supprimé, une exception sinon (utilisateur non existant)
 	 */
 	@DELETE
@@ -138,14 +152,19 @@ public class UtilisateurRestService {
 	}
 
 	/**
-	 * Web service de modification d'un utilisateur.
-	 * On utilise une requête HTTP avec la méthode PUT. Les données sont passées par un FormParam
+	 * Web service de modification d'un utilisateur. On utilise une requête HTTP
+	 * avec la méthode PUT. Les données sont passées par un FormParam
 	 * 
-	 * @param login le login de l'utilisateur à modifier
-	 * @param password son password
-	 * @param email son email
-	 * @param pseudo son pseudo
-	 * @return true si la modification est un succès, une exception sinon (utilisateur non existant)
+	 * @param login
+	 *            le login de l'utilisateur à modifier
+	 * @param password
+	 *            son password
+	 * @param email
+	 *            son email
+	 * @param pseudo
+	 *            son pseudo
+	 * @return true si la modification est un succès, une exception sinon
+	 *         (utilisateur non existant)
 	 */
 	@PUT
 	@Produces("application/json")
@@ -163,14 +182,17 @@ public class UtilisateurRestService {
 		}
 		return response;
 	}
-	
+
 	/**
-	 * Web service pour commenter
-	 * On utilise une requête HTTP avec la méthode POST. Les données sont passées par un FormParam.
+	 * Web service pour commenter On utilise une requête HTTP avec la méthode
+	 * POST. Les données sont passées par un FormParam.
 	 * 
-	 * @param login le login de l'utilisateur
-	 * @param nomProjet le nom du projet à commenter
-	 * @param texte le contenu du commentaire
+	 * @param login
+	 *            le login de l'utilisateur
+	 * @param nomProjet
+	 *            le nom du projet à commenter
+	 * @param texte
+	 *            le contenu du commentaire
 	 * @return true si créé, une exception sinon
 	 */
 	@POST
@@ -180,16 +202,15 @@ public class UtilisateurRestService {
 			@FormParam("texte") String texte) {
 
 		Response response;
-		
+
 		CommentaireId commentaireId = new CommentaireId();
 		commentaireId.setIdProjet(nomProjet);
 		commentaireId.setIdUtilisateur(login);
-		
+
 		Commentaire commentaire = new Commentaire();
 		commentaire.setId(commentaireId);
 		commentaire.setTexte(texte);
-		commentaire.setDate(new Date());
-		commentaire.setNoteCommentaire(0);
+		commentaire.getId().setDate(new Date());
 		commentaire.setProjet(projetBusinessService.getProjetByNomProjet(nomProjet));
 		commentaire.setUtilisateur(utilisateurBusinessService.getUtilisateurByLogin(login));
 
@@ -201,11 +222,12 @@ public class UtilisateurRestService {
 		}
 		return response;
 	}
-	
+
 	/**
 	 * Web service pour récupérer les projets d'un utilisateur
 	 * 
-	 * @param login le login de l'utilisateur
+	 * @param login
+	 *            le login de l'utilisateur
 	 * @return les projets, une exception sinon
 	 */
 	@GET
@@ -215,13 +237,38 @@ public class UtilisateurRestService {
 
 		Response response;
 		List<Projet> projets;
-		
+
 		try {
 			projets = utilisateurBusinessService.getProjets(login);
 			response = RestServiceHelper.handleSuccessfulResponse(projets);
 		} catch (BaseException e) {
 			response = RestServiceHelper.handleFailureResponse(e);
 		}
+		return response;
+	}
+
+	/**
+	 * Web service pour récupérer les projets d'un utilisateur
+	 * 
+	 * @param login
+	 *            le login de l'utilisateur
+	 * @return les projets, une exception sinon
+	 */
+	@POST
+	@Produces("application/json")
+	@Path("/projet/idee")
+	public Response createIdeeForProjet(@FormParam("login") String login, @FormParam("nomProjet") String nomProjet,
+			@FormParam("idee") String ideeString) {
+
+		Response response;
+
+		try {
+			ideeBusinessService.createIdeeForProjet(login, nomProjet, ideeString);
+			response = RestServiceHelper.handleSuccessfulResponse(null);
+		} catch (BusinessException e) {
+			response = RestServiceHelper.handleFailureResponse(e);
+		}
+		
 		return response;
 	}
 }

@@ -8,7 +8,7 @@ import fr.pride.project.model.Utilisateur;
 
 /**
  * Bean de connexion. Sert à transmettre l'utilisateur qui se connecte (pour
- * pouvoir récupérer ses infos dans le client et le token
+ * pouvoir récupérer ses infos dans l'utilisateur et le token)
  */
 @XmlRootElement(name = "connexion")
 @XmlAccessorType(XmlAccessType.FIELD)

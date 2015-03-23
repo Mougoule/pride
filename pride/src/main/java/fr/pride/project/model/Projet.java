@@ -21,7 +21,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 @Table(name = "projet")
 @Entity
-@NamedQueries({ @NamedQuery(name = "Projet.findAll", query = "SELECT p FROM Projet p"),
+@NamedQueries({ 
 				@NamedQuery(name = "Projet.findByNomProjet", query = "SELECT p FROM Projet p WHERE p.nomProjet = :NOM"),
 		})
 @XmlRootElement(name = "projet")
@@ -37,9 +37,6 @@ public class Projet implements Serializable {
 	@Column(columnDefinition = "TEXT")
 	private String description;
 
-	@Column(length = 1)
-	private int noteProjet;
-
 	/** Lob signal qu'il s'agit d'un grand blob */
 	@Lob
 	@Column
@@ -48,9 +45,17 @@ public class Projet implements Serializable {
 	@OneToMany(targetEntity = Commentaire.class, mappedBy = "projet", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Commentaire> commentaires;
 
-	@OneToMany(targetEntity = Equipe.class, mappedBy = "projet", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private Set<Equipe> equipes;
+	@OneToMany(targetEntity = Collaborateur.class, mappedBy = "projet", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<Collaborateur> collaborateurs;
+	
+	@OneToMany(targetEntity = Note.class, mappedBy = "projet", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<Note> notes;
+	
+	@OneToMany(targetEntity = Idee.class, mappedBy = "projet", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<Idee> truc;
 
+	/* Getters and Setters */
+	
 	public String getNomProjet() {
 		return nomProjet;
 	}
@@ -84,19 +89,28 @@ public class Projet implements Serializable {
 		this.commentaires = commentaires;
 	}
 	
-	public Set<Equipe> getEquipes() {
-		return equipes;
+	@JsonIgnore
+	public Set<Collaborateur> getCollaborateurs() {
+		return collaborateurs;
 	}
 
-	public void setEquipes(Set<Equipe> equipes) {
-		this.equipes = equipes;
+	public void setCollaborateurs(Set<Collaborateur> collaborateurs) {
+		this.collaborateurs = collaborateurs;
 	}
 
-	public int getNoteProjet() {
-		return noteProjet;
+	public Set<Note> getNotes() {
+		return notes;
 	}
 
-	public void setNoteProjet(int noteProjet) {
-		this.noteProjet = noteProjet;
+	public void setNotes(Set<Note> notes) {
+		this.notes = notes;
+	}
+
+	public Set<Idee> getIdees() {
+		return truc;
+	}
+
+	public void setIdees(Set<Idee> idees) {
+		this.truc = idees;
 	}
 }

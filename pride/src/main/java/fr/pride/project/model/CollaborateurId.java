@@ -6,7 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class EquipeId implements Serializable{
+public class CollaborateurId implements Serializable{
 
 	private static final long serialVersionUID = -4987177142646593300L;
 	
@@ -51,7 +51,7 @@ public class EquipeId implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		EquipeId other = (EquipeId) obj;
+		CollaborateurId other = (CollaborateurId) obj;
 		if (idProjet == null) {
 			if (other.idProjet != null)
 				return false;

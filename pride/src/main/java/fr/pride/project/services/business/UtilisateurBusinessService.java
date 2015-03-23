@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import fr.pride.project.model.Equipe;
+import fr.pride.project.model.Collaborateur;
 import fr.pride.project.model.Projet;
 import fr.pride.project.model.Utilisateur;
 import fr.pride.project.model.beans.Connexion;
@@ -134,7 +134,6 @@ public class UtilisateurBusinessService {
 		}
 
 		ancienUtilisateur.setEmail(email);
-		ancienUtilisateur.setPseudo(pseudo);
 		ancienUtilisateur.setPassword(password);
 		em.merge(ancienUtilisateur);
 	}
@@ -184,7 +183,7 @@ public class UtilisateurBusinessService {
 
 		List<Projet> projets = new ArrayList<Projet>();
 
-		for(Equipe eq : utilisateur.getEquipes()){
+		for(Collaborateur eq : utilisateur.getCollaborations()){
 			projets.add(eq.getProjet());
 		}
 		

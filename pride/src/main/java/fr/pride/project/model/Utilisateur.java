@@ -21,7 +21,6 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 @Table(name = "utilisateur")
 @Entity
 @NamedQueries({
-		@NamedQuery(name = "Utilisateur.findAll", query = "SELECT u FROM Utilisateur u"),
 		@NamedQuery(name = "Utilisateur.findByLogin", query = "SELECT u FROM Utilisateur u WHERE u.login = :LOGIN"),
 })
 @XmlRootElement(name = "utilisateur")
@@ -39,16 +38,21 @@ public class Utilisateur implements Serializable {
 	
 	@Column(nullable = false, length = 255)
 	private String email;
-	
-	@Column(nullable = false, length = 255)
-	private String pseudo;
 
 	@OneToMany(targetEntity = Commentaire.class, mappedBy = "utilisateur", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Commentaire> commentaires;
 	
-	@OneToMany(targetEntity = Equipe.class, mappedBy = "utilisateur", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private Set<Equipe> equipes;
+	@OneToMany(targetEntity = Collaborateur.class, mappedBy = "utilisateur", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<Collaborateur> collaborations;
+	
+	@OneToMany(targetEntity = Note.class, mappedBy = "utilisateur", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<Note> notes;
+	
+	@OneToMany(targetEntity = Note.class, mappedBy = "utilisateur", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<Idee> idees;
 
+	/* Getters and Setters */
+	
 	public String getLogin() {
 		return login;
 	}
@@ -57,6 +61,7 @@ public class Utilisateur implements Serializable {
 		this.login = login;
 	}
 
+	@JsonIgnore
 	public String getPassword() {
 		return password;
 	}
@@ -72,14 +77,6 @@ public class Utilisateur implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	public String getPseudo() {
-		return pseudo;
-	}
-
-	public void setPseudo(String pseudo) {
-		this.pseudo = pseudo;
-	}
 
 	@JsonIgnore
 	public Set<Commentaire> getCommentaires() {
@@ -91,11 +88,29 @@ public class Utilisateur implements Serializable {
 	}
 
 	@JsonIgnore
-	public Set<Equipe> getEquipes() {
-		return equipes;
+	public Set<Collaborateur> getCollaborations() {
+		return collaborations;
 	}
 
-	public void setEquipes(Set<Equipe> equipes) {
-		this.equipes = equipes;
+	public void setCollaborations(Set<Collaborateur> collaborateurs) {
+		this.collaborations = collaborateurs;
+	}
+
+	@JsonIgnore
+	public Set<Note> getNotes() {
+		return notes;
+	}
+
+	public void setNotes(Set<Note> notes) {
+		this.notes = notes;
+	}
+
+	@JsonIgnore
+	public Set<Idee> getIdees() {
+		return idees;
+	}
+
+	public void setIdees(Set<Idee> idees) {
+		this.idees = idees;
 	}
 }

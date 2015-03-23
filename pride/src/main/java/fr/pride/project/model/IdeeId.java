@@ -9,7 +9,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Embeddable
-public class CommentaireId implements Serializable{
+public class IdeeId implements Serializable{
 
 	private static final long serialVersionUID = -7141317978465524513L;
 
@@ -20,7 +20,7 @@ public class CommentaireId implements Serializable{
 	private String idProjet;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "date_creation_commentaire")
+	@Column(name = "date_creation_idee")
 	private Date dateCreation;
 
 	public String getIdUtilisateur() {
@@ -39,12 +39,12 @@ public class CommentaireId implements Serializable{
 		this.idProjet = idProjet;
 	}
 
-	public Date getDate() {
+	public Date getDateCreation() {
 		return dateCreation;
 	}
 
-	public void setDate(Date date) {
-		this.dateCreation = date;
+	public void setDateCreation(Date dateCreation) {
+		this.dateCreation = dateCreation;
 	}
 
 	@Override
@@ -65,7 +65,7 @@ public class CommentaireId implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		CommentaireId other = (CommentaireId) obj;
+		IdeeId other = (IdeeId) obj;
 		if (dateCreation == null) {
 			if (other.dateCreation != null)
 				return false;

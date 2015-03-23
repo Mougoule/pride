@@ -10,19 +10,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import fr.pride.project.model.Equipe;
-import fr.pride.project.model.EquipeId;
+import fr.pride.project.model.Collaborateur;
+import fr.pride.project.model.CollaborateurId;
 import fr.pride.project.model.Projet;
 import fr.pride.project.model.Utilisateur;
+import fr.pride.project.model.enums.Role;
 import fr.pride.project.services.business.exceptions.BusinessException;
 import fr.pride.project.services.common.CustomError;
 import fr.pride.project.services.rs.annotations.Tokenized;
 
 @Service
-public class EquipeBusinessService {
+public class CollaborateurBusinessService {
 
 	/** Logger */
-	private static final Logger LOGGER = LoggerFactory.getLogger(EquipeBusinessService.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(CollaborateurBusinessService.class);
 
 	@Autowired
 	private ProjetBusinessService projetBusinessService;
@@ -35,12 +36,12 @@ public class EquipeBusinessService {
 	private EntityManager em;
 
 	@Tokenized
-	public Equipe getEquipe(Utilisateur utilisateur, Projet projet) {
+	public Collaborateur getCollaborateur(Utilisateur utilisateur, Projet projet) {
 		LOGGER.info("Récupération d'une équipe par son identifiant : {}, {}", utilisateur.getLogin(),
 				projet.getNomProjet());
 
 		try {
-			return em.createNamedQuery("Equipe.findById", Equipe.class).setParameter("PROJET", projet)
+			return em.createNamedQuery("Collaborateur.findById", Collaborateur.class).setParameter("PROJET", projet)
 					.setParameter("UTILISATEUR", utilisateur).getSingleResult();
 		} catch (NoResultException e) {
 			return null;
@@ -49,7 +50,7 @@ public class EquipeBusinessService {
 
 	@Tokenized
 	@Transactional
-	public Equipe createEquipe(String login, String nomProjet) throws BusinessException {
+	public Collaborateur createCollaborateur(String login, String nomProjet, Role role) throws BusinessException {
 		LOGGER.info("Création d'une équipe pour le couple {} / {} : ", nomProjet, login);
 
 		Projet projet = projetBusinessService.getProjetByNomProjet(nomProjet);
@@ -60,26 +61,27 @@ public class EquipeBusinessService {
 		Utilisateur utilisateur = utilisateurBusinessService.getUtilisateurByLogin(login);
 		if (utilisateur == null) {
 			throw new BusinessException(CustomError.ERROR_UTILISATEUR_NOT_FOUND,
-					"Impossible de créer le projet. Aucun utilisateur trouvé pour le login : " + login);
+					"Impossible de créer l'équipe. Aucun utilisateur trouvé pour le login : " + login);
 		}
-		Equipe equipe = getEquipe(utilisateur, projet);
-		if (equipe != null) {
+		Collaborateur collaborateur = getCollaborateur(utilisateur, projet);
+		if (collaborateur != null) {
 			throw new BusinessException(CustomError.ERROR_EQUIPE_ALREADY_EXIST,
 					"Impossible de créer l'équipe. Il existe déjà une équipe pour le couple projet / utilisateur : "
 							+ nomProjet + " / " + login);
 		}
 
-		EquipeId equipeId = new EquipeId();
-		equipeId.setIdProjet(nomProjet);
-		equipeId.setIdUtilisateur(login);
+		CollaborateurId collaborateurId = new CollaborateurId();
+		collaborateurId.setIdProjet(nomProjet);
+		collaborateurId.setIdUtilisateur(login);
 
-		equipe = new Equipe();
-		equipe.setId(equipeId);
-		equipe.setProjet(projet);
-		equipe.setUtilisateurs(utilisateur);
+		collaborateur = new Collaborateur();
+		collaborateur.setId(collaborateurId);
+		collaborateur.setProjet(projet);
+		collaborateur.setUtilisateur(utilisateur);
+		collaborateur.setRole(role);
 
-		em.persist(equipe);
+		em.persist(collaborateur);
 
-		return equipe;
+		return collaborateur;
 	}
 }

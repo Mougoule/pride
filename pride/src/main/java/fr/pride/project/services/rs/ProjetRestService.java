@@ -1,6 +1,6 @@
 package fr.pride.project.services.rs;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -47,11 +47,11 @@ public class ProjetRestService {
 		Projet projet = projetBusinessService.getProjetByNomProjet(nomProjet);
 		
 		Response response;
-		List<Commentaire> commentaires = commentaireBusinessService.getCommentaireByProjet(projet);
+		Set<Commentaire> commentaires = projet.getCommentaires();
 		response = RestServiceHelper.handleSuccessfulResponse(commentaires);
 		return response;
 	}
-	
+
 	@POST
 	@Produces("application/json")
 	@Path("")
@@ -60,7 +60,7 @@ public class ProjetRestService {
 		Response response;
 		try {
 			projetBusinessService.creerProjet(login, nomProjet, description);
-			response = RestServiceHelper.handleSuccessfulResponse(true);
+			response = RestServiceHelper.handleSuccessfulResponse(null);
 		} catch (BaseException e) {
 			response = RestServiceHelper.handleFailureResponse(e);
 		}

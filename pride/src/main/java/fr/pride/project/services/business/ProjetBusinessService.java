@@ -13,8 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import fr.pride.project.model.Equipe;
+import fr.pride.project.model.Collaborateur;
 import fr.pride.project.model.Projet;
+import fr.pride.project.model.enums.Role;
 import fr.pride.project.services.business.exceptions.BusinessException;
 import fr.pride.project.services.common.CustomError;
 import fr.pride.project.services.rs.annotations.Tokenized;
@@ -29,7 +30,7 @@ public class ProjetBusinessService {
 	private UtilisateurBusinessService utilisateurBusinessService;
 	
 	@Autowired
-	private EquipeBusinessService equipeBusinessService;
+	private CollaborateurBusinessService collaborateurBusinessService;
 
 	/** Entity Manager */
 	@PersistenceContext
@@ -63,13 +64,12 @@ public class ProjetBusinessService {
 		Projet projet = new Projet();
 		projet.setNomProjet(nomProjet);
 		projet.setDescription(description);
-		projet.setNoteProjet(0);
 		em.persist(projet);
 		
-		Set<Equipe> equipe = new HashSet<Equipe>();
-		equipe.add(equipeBusinessService.createEquipe(login, nomProjet));
+		Set<Collaborateur> collaborateur = new HashSet<Collaborateur>();
+		collaborateur.add(collaborateurBusinessService.createCollaborateur(login, nomProjet, Role.CHEF));
 		
-		projet.setEquipes(equipe);
+		projet.setCollaborateurs(collaborateur);
 		
 		em.merge(projet);
 	}
