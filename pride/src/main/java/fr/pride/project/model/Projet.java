@@ -19,10 +19,27 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+
 @Table(name = "projet")
 @Entity
 @NamedQueries({ 
 				@NamedQuery(name = "Projet.findByNomProjet", query = "SELECT p FROM Projet p WHERE p.nomProjet = :NOM"),
+				@NamedQuery(name = "Projet.findAllByRoleAndLogin", query = 
+						"SELECT p "
+						+ "FROM "
+						+ "Projet p "
+						+ "WHERE p.nomProjet IN ( "
+							+ "SELECT DISTINCT cp.nomProjet "
+							+ "FROM "
+								+ "Collaborateur c "
+								+ "INNER JOIN "
+									+ "c.utilisateur cu "
+								+ "INNER JOIN "
+									+ "c.projet cp "
+								+ "WHERE "
+								+ "c.role = :ROLE "
+								+ "AND "
+								+ "cu.login = :LOGIN)"),
 		})
 @XmlRootElement(name = "projet")
 @XmlAccessorType(XmlAccessType.FIELD)

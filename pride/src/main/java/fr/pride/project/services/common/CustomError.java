@@ -13,21 +13,25 @@ public enum CustomError implements BusinessError {
 	/* Erreurs de securité */
 	ERROR_SECURITY_INVALID_CREDENTIALS("SEC_02"),
 	
-	/* Erreurs de l'utilisaeur */
+	/* Erreurs de l'utilisateur */
 	ERROR_UTILISATEUR_GENERIC("UTI_00"),
 	ERROR_UTILISATEUR_NOT_FOUND("UTI_01"),
 	ERROR_UTILISATEUR_ALREADY_EXISTS("UTI_02"),
-	ERROR_UTILISATEUR_CONNEXION("UTI_03"),
 	
 	/* Erreurs des projets */
 	ERROR_PROJET_GENERIC("PRO_00"),
 	ERROR_PROJET_NOT_FOUND("PRO_01"),
 	ERROR_PROJET_ALREADY_EXIST("PRO_02"),
 	
-	/* Erreurs des équipes */
-	ERROR_EQUIPE_GENERIC("EQP_00"),
-	ERROR_EQUIPE_NOT_FOUND("EQP_01"),
-	ERROR_EQUIPE_ALREADY_EXIST("EQP_02");
+	/* Erreurs des collaborateurs */
+	ERROR_COLLABORATEUR_GENERIC("COL_00"),
+	ERROR_COLLABORATEUR_NOT_FOUND("COL_01"),
+	ERROR_COLLABORATEUR_ALREADY_EXIST("COL_02"), 
+	
+	/* Erreurs des rôles*/
+	ERROR_ROLE_GENERIC("ROL_00"),
+	ERROR_ROLE_DOES_NOT_EXIST("ROL_01"),
+	;
 
 	/** Code de l'erreur */
 	final String code;

@@ -65,7 +65,7 @@ public class CollaborateurBusinessService {
 		}
 		Collaborateur collaborateur = getCollaborateur(utilisateur, projet);
 		if (collaborateur != null) {
-			throw new BusinessException(CustomError.ERROR_EQUIPE_ALREADY_EXIST,
+			throw new BusinessException(CustomError.ERROR_COLLABORATEUR_ALREADY_EXIST,
 					"Impossible de créer l'équipe. Il existe déjà une équipe pour le couple projet / utilisateur : "
 							+ nomProjet + " / " + login);
 		}

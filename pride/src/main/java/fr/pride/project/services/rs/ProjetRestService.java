@@ -1,5 +1,6 @@
 package fr.pride.project.services.rs;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.ws.rs.FormParam;
@@ -61,6 +62,21 @@ public class ProjetRestService {
 		try {
 			projetBusinessService.creerProjet(login, nomProjet, description);
 			response = RestServiceHelper.handleSuccessfulResponse(null);
+		} catch (BaseException e) {
+			response = RestServiceHelper.handleFailureResponse(e);
+		}
+		return response;
+	}
+	
+	@GET
+	@Produces("application/json")
+	@Path("/{role}/{login}")
+	public Response findAllByLoginAndRole(@PathParam("role") String role, @PathParam("login") String login) {
+
+		Response response;
+		try {
+			List<Projet> projets = projetBusinessService.findAllByLoginAndRole(login, role);
+			response = RestServiceHelper.handleSuccessfulResponse(projets);
 		} catch (BaseException e) {
 			response = RestServiceHelper.handleFailureResponse(e);
 		}

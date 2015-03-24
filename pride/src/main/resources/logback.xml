@@ -23,6 +23,8 @@
 	</appender>
 	
 	<logger name="org.apache.cxf" level="INFO"/>
+	<logger name="org.hibernate.impl.SessionFactoryImpl" level="INFO"/>
+	<logger name="org.hibernate.HibernateException" level="ERROR"/>
     <logger name="org.springframework" level="INFO"/>
 	<logger name="org.hibernate" level="warn" />
 	<logger name="fr.hardis.client.project" level="${logs.level}">
