@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import fr.pride.project.model.Commentaire;
 import fr.pride.project.model.Projet;
+import fr.pride.project.model.Utilisateur;
 import fr.pride.project.services.business.CommentaireBusinessService;
 import fr.pride.project.services.business.ProjetBusinessService;
 import fr.pride.project.services.business.exceptions.BaseException;
@@ -42,7 +43,7 @@ public class ProjetRestService {
 	
 	@GET
 	@Produces("application/json")
-	@Path("/commentaire/{nomProjet}")
+	@Path("/{nomProjet}/commentaire")
 	public Response getCommentaire(@PathParam("nomProjet") String nomProjet) {
 
 		Projet projet = projetBusinessService.getProjetByNomProjet(nomProjet);
@@ -77,6 +78,21 @@ public class ProjetRestService {
 		try {
 			List<Projet> projets = projetBusinessService.findAllByLoginAndRole(login, role);
 			response = RestServiceHelper.handleSuccessfulResponse(projets);
+		} catch (BaseException e) {
+			response = RestServiceHelper.handleFailureResponse(e);
+		}
+		return response;
+	}
+	
+	@GET
+	@Produces("application/json")
+	@Path("/collaborateur/{nomProjet}")
+	public Response findAllCollaborateurByProjet(@PathParam("nomProjet") String nomProjet, @PathParam("login") String login) {
+
+		Response response;
+		try {
+			List<Utilisateur> utilisateurs = projetBusinessService.findAllCollaborateurByProjet(nomProjet);
+			response = RestServiceHelper.handleSuccessfulResponse(utilisateurs);
 		} catch (BaseException e) {
 			response = RestServiceHelper.handleFailureResponse(e);
 		}

@@ -43,9 +43,6 @@
 	<jaxrs:server id="services" address="/rs">
 		<jaxrs:serviceBeans>
 			<bean
-				class="fr.pride.project.services.rs.ParameterRestService">
-			</bean>
-			<bean
 				class="fr.pride.project.services.rs.SecurityRestService">
 			</bean>
 			<bean

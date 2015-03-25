@@ -8,7 +8,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -27,7 +26,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 				@NamedQuery(name = "Projet.findAllByRoleAndLogin", query = 
 						"SELECT p "
 						+ "FROM "
-						+ "Projet p "
+							+ "Projet p "
 						+ "WHERE p.nomProjet IN ( "
 							+ "SELECT DISTINCT cp.nomProjet "
 							+ "FROM "
@@ -37,9 +36,9 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 								+ "INNER JOIN "
 									+ "c.projet cp "
 								+ "WHERE "
-								+ "c.role = :ROLE "
+									+ "c.role = :ROLE "
 								+ "AND "
-								+ "cu.login = :LOGIN)"),
+									+ "cu.login = :LOGIN)"),
 		})
 @XmlRootElement(name = "projet")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -53,11 +52,6 @@ public class Projet implements Serializable {
 
 	@Column(columnDefinition = "TEXT")
 	private String description;
-
-	/** Lob signal qu'il s'agit d'un grand blob */
-	@Lob
-	@Column
-	private byte[] image;
 
 	@OneToMany(targetEntity = Commentaire.class, mappedBy = "projet", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Commentaire> commentaires;
@@ -87,14 +81,6 @@ public class Projet implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public byte[] getImage() {
-		return image;
-	}
-
-	public void setImage(byte[] image) {
-		this.image = image;
 	}
 
 	@JsonIgnore

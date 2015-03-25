@@ -21,9 +21,22 @@ import fr.pride.project.model.enums.Role;
 @Table(name = "collaborateur")
 @Entity
 @NamedQueries({
-		@NamedQuery(name = "Collaborateur.findAll", query = "SELECT e FROM Collaborateur e"),
-		@NamedQuery(name = "Collaborateur.findById", query = "SELECT e FROM Collaborateur e WHERE e.projet = :PROJET AND e.utilisateur = :UTILISATEUR"),
-		@NamedQuery(name = "Collaborateur.findByProjet", query = "SELECT e FROM Collaborateur e WHERE e.projet = :PROJET"),
+		@NamedQuery(name = "Collaborateur.findAll", query = "SELECT c FROM Collaborateur c"),
+		@NamedQuery(name = "Collaborateur.findById", query = "SELECT c FROM Collaborateur c WHERE c.projet = :PROJET AND c.utilisateur = :UTILISATEUR"),
+		@NamedQuery(name = "Collaborateur.findByProjet", query = "SELECT c FROM Collaborateur c WHERE c.projet = :PROJET"),
+		@NamedQuery(name = "Collaborateur.findUtilisateurByProjet", 
+			query = 
+				"SELECT u "
+				+ "FROM "
+					+ "Utilisateur u "
+				+ "WHERE "
+					+ "u.login IN ( "
+						+ "SELECT DISTINCT "
+							+ "	c.utilisateur.login "
+						+ "FROM "
+							+ "Collaborateur c "
+						+ "WHERE "
+							+ "c.projet = :PROJET)"),
 })
 @XmlRootElement(name = "collaborateur")
 @XmlAccessorType(XmlAccessType.FIELD)

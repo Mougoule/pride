@@ -81,22 +81,38 @@ public class ProjetBusinessService {
 	public List<Projet> findAllByLoginAndRole(String login, String roleStr) throws BaseException {
 		LOGGER.info("Récupération des projets pour l'utilisateur : {}, pour le role : {}", login, roleStr);
 		Utilisateur utilisateur = utilisateurBusinessService.getUtilisateurByLogin(login);
-		
+
 		if (utilisateur == null) {
 			throw new BusinessException(CustomError.ERROR_UTILISATEUR_NOT_FOUND,
 					"Impossible de récupérer les projets, l'utilisateur : " + login + " n'existe pas");
 		}
 		Role role;
-		if(Role.valueOf(roleStr) == Role.CHEF){
+		if (Role.valueOf(roleStr) == Role.CHEF) {
 			role = Role.CHEF;
-		}else if(Role.valueOf(roleStr) == Role.COLLABO){
+		} else if (Role.valueOf(roleStr) == Role.COLLABO) {
 			role = Role.CHEF;
-		}else{
-			throw new BusinessException(CustomError.ERROR_ROLE_DOES_NOT_EXIST, "Impossible de récupérer les projets, le rôle n'existe pas : "+roleStr);
+		} else {
+			throw new BusinessException(CustomError.ERROR_ROLE_DOES_NOT_EXIST,
+					"Impossible de récupérer les projets, le rôle n'existe pas : " + roleStr);
 		}
 		LOGGER.info("Le rôle reçu : {}", role.getRole());
 		List<Projet> projets = em.createNamedQuery("Projet.findAllByRoleAndLogin", Projet.class)
 				.setParameter("ROLE", role).setParameter("LOGIN", login).getResultList();
 		return projets;
+	}
+
+	public List<Utilisateur> findAllCollaborateurByProjet(String nomProjet) throws BaseException {
+		LOGGER.info("Récupération des collaborateurs pour le projet : {}", nomProjet);
+
+		Projet projet = getProjetByNomProjet(nomProjet);
+		if (projet == null) {
+			throw new BusinessException(CustomError.ERROR_PROJET_NOT_FOUND,
+					"Impossible de récupérer les collaborateurs, le projet : " + nomProjet + " n'existe pas");
+		}
+
+		List<Utilisateur> utilisateurs = em
+				.createNamedQuery("Collaborateur.findUtilisateurByProjet", Utilisateur.class)
+				.setParameter("PROJET", projet).getResultList();
+		return utilisateurs;
 	}
 }
