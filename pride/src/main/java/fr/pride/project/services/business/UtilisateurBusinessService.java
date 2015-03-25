@@ -108,8 +108,7 @@ public class UtilisateurBusinessService {
 	}
 
 	/**
-	 * Permet la modification d'un utilisateur trouvé par son login (seul le
-	 * password, l'email et le pseudo peuvent être modifier)
+	 * Permet la modification d'un utilisateur trouvé par son login
 	 * 
 	 * @param login
 	 *            le login de l'utilisateur
@@ -117,14 +116,12 @@ public class UtilisateurBusinessService {
 	 *            le nouveau password (ou l'ancien)
 	 * @param email
 	 *            le nouvel email (ou l'ancien)
-	 * @param pseudo
-	 *            le nouveau pseudo (ou l'ancien
 	 * @throws BaseException
 	 *             si l'utilisateur n'a pas été trouvé
 	 */
 	@Tokenized
 	@Transactional
-	public void modifierUtilisateur(String login, String password, String email, String pseudo) throws BaseException {
+	public void modifierUtilisateur(String login, String password, String email) throws BaseException {
 
 		LOGGER.info("Inscription de l'utilisateur : {}", login);
 		Utilisateur ancienUtilisateur = getUtilisateurByLogin(login);

@@ -101,15 +101,13 @@ public class UtilisateurRestService {
 	 *            son password
 	 * @param email
 	 *            son email
-	 * @param pseudo
-	 *            son pseudo
 	 * @return true si créé, une exception sinon (utilisateur non existant)
 	 */
 	@POST
 	@Produces("application/json")
 	@Path("")
 	public Response inscrireUtilisateur(@FormParam("login") String login, @FormParam("password") String password,
-			@FormParam("email") String email, @FormParam("pseudo") String pseudo) {
+			@FormParam("email") String email) {
 
 		Response response;
 		Utilisateur utilisateur = new Utilisateur();
@@ -161,8 +159,6 @@ public class UtilisateurRestService {
 	 *            son password
 	 * @param email
 	 *            son email
-	 * @param pseudo
-	 *            son pseudo
 	 * @return true si la modification est un succès, une exception sinon
 	 *         (utilisateur non existant)
 	 */
@@ -170,12 +166,12 @@ public class UtilisateurRestService {
 	@Produces("application/json")
 	@Path("")
 	public Response modifierUtilisateur(@FormParam("login") String login, @FormParam("password") String password,
-			@FormParam("email") String email, @FormParam("pseudo") String pseudo) {
+			@FormParam("email") String email) {
 
 		Response response;
 
 		try {
-			utilisateurBusinessService.modifierUtilisateur(login, password, email, pseudo);
+			utilisateurBusinessService.modifierUtilisateur(login, password, email);
 			response = RestServiceHelper.handleSuccessfulResponse(true);
 		} catch (BaseException e) {
 			response = RestServiceHelper.handleFailureResponse(e);
