@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.pride.project.model.Collaborateur;
+import fr.pride.project.model.Idee;
+import fr.pride.project.model.Note;
 import fr.pride.project.model.Projet;
 import fr.pride.project.model.Utilisateur;
 import fr.pride.project.model.enums.Role;
@@ -52,7 +54,7 @@ public class ProjetBusinessService {
 
 	@Tokenized
 	@Transactional
-	public void creerProjet(String login, String nomProjet, String description) throws BusinessException {
+	public Projet creerProjet(String login, String nomProjet, String description) throws BusinessException {
 		LOGGER.info("Création d'un projet : {}, par : {}", nomProjet, login);
 
 		if (utilisateurBusinessService.getUtilisateurByLogin(login) == null) {
@@ -67,6 +69,8 @@ public class ProjetBusinessService {
 		Projet projet = new Projet();
 		projet.setNomProjet(nomProjet);
 		projet.setDescription(description);
+		projet.setNotes(new HashSet<Note>());
+		projet.setIdees(new HashSet<Idee>());
 		em.persist(projet);
 
 		Set<Collaborateur> collaborateur = new HashSet<Collaborateur>();
@@ -74,7 +78,7 @@ public class ProjetBusinessService {
 
 		projet.setCollaborateurs(collaborateur);
 
-		em.merge(projet);
+		return em.merge(projet);
 	}
 
 	@Tokenized

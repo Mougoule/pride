@@ -61,8 +61,8 @@ public class ProjetRestService {
 
 		Response response;
 		try {
-			projetBusinessService.creerProjet(login, nomProjet, description);
-			response = RestServiceHelper.handleSuccessfulResponse(null);
+			Projet projet = projetBusinessService.creerProjet(login, nomProjet, description);
+			response = RestServiceHelper.handleSuccessfulResponse(projet);
 		} catch (BaseException e) {
 			response = RestServiceHelper.handleFailureResponse(e);
 		}
