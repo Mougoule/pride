@@ -14,11 +14,6 @@ import fr.pride.project.services.business.SecurityBusinessService;
 import fr.pride.project.services.business.exceptions.BaseException;
 import fr.pride.project.services.rs.helpers.RestServiceHelper;
 
-/**
- * Implementation du service {@link SecurityRestService}
- * 
- *
- */
 @Path("/security")
 public class SecurityRestService {
 

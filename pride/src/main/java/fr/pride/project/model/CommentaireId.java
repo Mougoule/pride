@@ -8,6 +8,9 @@ import javax.persistence.Embeddable;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+/**
+ * Clef composite d'un commentaire
+ */
 @Embeddable
 public class CommentaireId implements Serializable{
 

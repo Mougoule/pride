@@ -19,6 +19,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 
+/**
+ * Entité d'un projet
+ */
 @Table(name = "projet")
 @Entity
 @NamedQueries({ 
@@ -53,17 +56,26 @@ public class Projet implements Serializable {
 	@Column(columnDefinition = "TEXT")
 	private String description;
 
+	/**
+	 * Association avec un commentaire
+	 */
 	@OneToMany(targetEntity = Commentaire.class, mappedBy = "projet", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Commentaire> commentaires;
 
+	/**
+	 * Association avec un collaborateur
+	 */
 	@OneToMany(targetEntity = Collaborateur.class, mappedBy = "projet", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Collaborateur> collaborateurs;
 	
+	/**
+	 * Association avec une note
+	 */
 	@OneToMany(targetEntity = Note.class, mappedBy = "projet", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Note> notes;
 	
 	@OneToMany(targetEntity = Idee.class, mappedBy = "projet", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private Set<Idee> truc;
+	private Set<Idee> idees;
 
 	/* Getters and Setters */
 	
@@ -110,10 +122,10 @@ public class Projet implements Serializable {
 	}
 
 	public Set<Idee> getIdees() {
-		return truc;
+		return idees;
 	}
 
 	public void setIdees(Set<Idee> idees) {
-		this.truc = idees;
+		this.idees = idees;
 	}
 }

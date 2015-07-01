@@ -8,6 +8,9 @@ import javax.persistence.Embeddable;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+/**
+ * Clef composite d'une note
+ */
 @Embeddable
 public class NoteId implements Serializable{
 

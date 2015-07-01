@@ -37,7 +37,7 @@ public class CollaborateurBusinessService {
 
 	@Tokenized
 	public Collaborateur getCollaborateur(Utilisateur utilisateur, Projet projet) {
-		LOGGER.info("RÈcupÈration d'une Èquipe par son identifiant : {}, {}", utilisateur.getLogin(),
+		LOGGER.info("R√©cup√©ration d'une √©quipe par son identifiant : {}, {}", utilisateur.getLogin(),
 				projet.getNomProjet());
 
 		try {
@@ -48,25 +48,34 @@ public class CollaborateurBusinessService {
 		}
 	}
 
+	/**
+	 * Cr√©ation d'un collaborateur
+	 * 
+	 * @param login le login de l'utilisateur
+	 * @param nomProjet le nom du projet
+	 * @param role le role du collaborateur 
+	 * @return le collaborateur
+	 * @throws BusinessException
+	 */
 	@Tokenized
 	@Transactional
 	public Collaborateur createCollaborateur(String login, String nomProjet, Role role) throws BusinessException {
-		LOGGER.info("CrÈation d'une Èquipe pour le couple {} / {} : ", nomProjet, login);
+		LOGGER.info("Cr√©ation d'une √©quipe pour le couple {} / {} : ", nomProjet, login);
 
 		Projet projet = projetBusinessService.getProjetByNomProjet(nomProjet);
 		if (projet == null) {
 			throw new BusinessException(CustomError.ERROR_PROJET_NOT_FOUND,
-					"Impossible de crÈer l'Èquipe. Aucun projet trouvÈ pour le nom de projet : " + nomProjet);
+					"Impossible de cr√©er l'√©quipe. Aucun projet trouv√© pour le nom de projet : " + nomProjet);
 		}
 		Utilisateur utilisateur = utilisateurBusinessService.getUtilisateurByLogin(login);
 		if (utilisateur == null) {
 			throw new BusinessException(CustomError.ERROR_UTILISATEUR_NOT_FOUND,
-					"Impossible de crÈer l'Èquipe. Aucun utilisateur trouvÈ pour le login : " + login);
+					"Impossible d'ajouter le collaborateur. Aucun utilisateur trouv√© pour le login : " + login);
 		}
 		Collaborateur collaborateur = getCollaborateur(utilisateur, projet);
 		if (collaborateur != null) {
 			throw new BusinessException(CustomError.ERROR_COLLABORATEUR_ALREADY_EXIST,
-					"Impossible de crÈer l'Èquipe. Il existe dÈj‡ une Èquipe pour le couple projet / utilisateur : "
+					"Impossible de cr√©er l'√©quipe. Il existe d√©j√† une √©quipe pour le couple projet / utilisateur : "
 							+ nomProjet + " / " + login);
 		}
 

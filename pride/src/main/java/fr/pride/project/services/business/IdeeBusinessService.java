@@ -37,21 +37,29 @@ public class IdeeBusinessService {
 	@PersistenceContext
 	private EntityManager em;
 
+	/**
+	 * Créer une idée pour un projet
+	 * 
+	 * @param login le login de l'utilisateur créant l'idée
+	 * @param nomProjet le nom du projet associé à l'idée
+	 * @param ideeString l'idée
+	 * @throws BusinessException
+	 */
 	@Tokenized
 	@Transactional
 	public void createIdeeForProjet(String login, String nomProjet, String ideeString) throws BusinessException {
 		
-		LOGGER.info("Cr�ation d'une id�e pour le couple {} / {} : ", nomProjet, login);
+		LOGGER.info("Création d'une idée pour le couple {} / {} : ", nomProjet, login);
 
 		Projet projet = projetBusinessService.getProjetByNomProjet(nomProjet);
 		if (projet == null) {
 			throw new BusinessException(CustomError.ERROR_PROJET_NOT_FOUND,
-					"Impossible de cr�er l'id�e. Aucun projet trouv� pour le nom de projet : " + nomProjet);
+					"Impossible de créer l'idée. Aucun projet trouvé pour le nom de projet : " + nomProjet);
 		}
 		Utilisateur utilisateur = utilisateurBusinessService.getUtilisateurByLogin(login);
 		if (utilisateur == null) {
 			throw new BusinessException(CustomError.ERROR_UTILISATEUR_NOT_FOUND,
-					"Impossible de cr�er l'id�e. Aucun utilisateur trouv� pour le login : " + login);
+					"Impossible de créer l'idée. Aucun utilisateur trouvé pour le login : " + login);
 		}
 		
 		IdeeId ideeId = new IdeeId();

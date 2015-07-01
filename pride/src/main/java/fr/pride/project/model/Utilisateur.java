@@ -22,6 +22,20 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 @Entity
 @NamedQueries({
 		@NamedQuery(name = "Utilisateur.findByLogin", query = "SELECT u FROM Utilisateur u WHERE u.login = :LOGIN"),
+		@NamedQuery(name = "Utilisateur.findAllNotInProjet", query = 
+		"SELECT u "
+		+ "FROM "
+			+ "Utilisateur u "
+		+ "WHERE u.login NOT IN ( "
+			+ "SELECT DISTINCT cu.login "
+			+ "FROM "
+				+ "Collaborateur c "
+				+ "INNER JOIN "
+					+ "c.utilisateur cu "
+				+ "INNER JOIN "
+					+ "c.projet cp "
+				+ "WHERE "
+					+ "cp.nomProjet = :NOMPROJET)"),
 })
 @XmlRootElement(name = "utilisateur")
 @XmlAccessorType(XmlAccessType.FIELD)

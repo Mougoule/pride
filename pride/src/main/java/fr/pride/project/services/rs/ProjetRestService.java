@@ -13,11 +13,15 @@ import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import fr.pride.project.model.Collaborateur;
 import fr.pride.project.model.Commentaire;
 import fr.pride.project.model.Projet;
 import fr.pride.project.model.Utilisateur;
+import fr.pride.project.model.enums.Role;
+import fr.pride.project.services.business.CollaborateurBusinessService;
 import fr.pride.project.services.business.CommentaireBusinessService;
 import fr.pride.project.services.business.ProjetBusinessService;
+import fr.pride.project.services.business.UtilisateurBusinessService;
 import fr.pride.project.services.business.exceptions.BaseException;
 import fr.pride.project.services.rs.helpers.RestServiceHelper;
 
@@ -29,6 +33,12 @@ public class ProjetRestService {
 	
 	@Autowired
 	private CommentaireBusinessService commentaireBusinessService;
+	
+	@Autowired
+	private CollaborateurBusinessService collaborateurBusinessService;
+	
+	@Autowired
+	private UtilisateurBusinessService utilisateurBusinessService;
 	
 	@GET
 	@Produces("application/json")
@@ -93,6 +103,22 @@ public class ProjetRestService {
 		try {
 			List<Utilisateur> utilisateurs = projetBusinessService.findAllCollaborateurByProjet(nomProjet);
 			response = RestServiceHelper.handleSuccessfulResponse(utilisateurs);
+		} catch (BaseException e) {
+			response = RestServiceHelper.handleFailureResponse(e);
+		}
+		return response;
+	}
+	
+	@POST
+	@Produces("application/json")
+	@Path("/collaborateur")
+	public Response addCollaborateurToProjet(@FormParam("login") String login, @FormParam("nomProjet") String nomProjet) {
+
+		Response response;
+		try {
+			Collaborateur collaborateur = collaborateurBusinessService.createCollaborateur(login, nomProjet, Role.COLLABO);
+			Utilisateur utilisateur = utilisateurBusinessService.getUtilisateurByLogin(collaborateur.getUtilisateur().getLogin());
+			response = RestServiceHelper.handleSuccessfulResponse(utilisateur);
 		} catch (BaseException e) {
 			response = RestServiceHelper.handleFailureResponse(e);
 		}

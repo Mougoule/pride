@@ -33,27 +33,38 @@ public class CommentaireBusinessService {
 	@PersistenceContext
 	private EntityManager em;
 	
+	/**
+	 * Cr√©ation d'un commentaire
+	 * 
+	 * @param commentaire le commentaire
+	 * @throws BusinessException
+	 */
 	@Tokenized
 	@Transactional
 	public void creerCommentaire(Commentaire commentaire) throws BusinessException{
 		String login = commentaire.getUtilisateur().getLogin();
 		String nomProjet = commentaire.getProjet().getNomProjet();
-		LOGGER.info("CrÈation d'un commentaire pour l'utilisateur {} et pour le projet {}", login, nomProjet);
+		LOGGER.info("Cr√©ation d'un commentaire pour l'utilisateur {} et pour le projet {}", login, nomProjet);
 		if (projetBusinessService.getProjetByNomProjet(nomProjet) == null) {
 			throw new BusinessException(CustomError.ERROR_PROJET_NOT_FOUND,
-					"Impossible de crÈer le commentaire. Aucun projet trouvÈ pour le nom : " + nomProjet);
+					"Impossible de cr√©er le commentaire. Aucun projet trouv√© pour le nom : " + nomProjet);
 		}
 		if (utilisateurBusinessService.getUtilisateurByLogin(login) == null) {
 			throw new BusinessException(CustomError.ERROR_UTILISATEUR_NOT_FOUND,
-					"Impossible de crÈer le commentaire. Aucun utilisateur trouvÈ pour le login : " + login);
+					"Impossible de cr√©er le commentaire. Aucun utilisateur trouv√© pour le login : " + login);
 		}
 		
 		em.merge(commentaire);
 	}
 
+	/**
+	 * R√©cup√®re un commentaire par son projet
+	 * @param projet le projet
+	 * @return La liste des commentaires
+	 */
 	@Tokenized
 	public List<Commentaire> getCommentaireByProjet(Projet projet) {
-		LOGGER.info("RÈcupÈration des commentaires pour le projet {}", projet.getNomProjet());
+		LOGGER.info("R√©cup√©ration des commentaires pour le projet {}", projet.getNomProjet());
 		List<Commentaire> commentaires = em.createNamedQuery("Commentaire.findAllByProjet", Commentaire.class).setParameter("PROJET", projet).getResultList();
 		return commentaires;
 	}

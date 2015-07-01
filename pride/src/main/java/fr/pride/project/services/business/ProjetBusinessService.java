@@ -41,9 +41,14 @@ public class ProjetBusinessService {
 	@PersistenceContext
 	private EntityManager em;
 
+	/**
+	 * R√©cup√®re un projet par son nom
+	 * @param nomProjet le nom du projet √† r√©cup√©rer
+	 * @return le projet
+	 */
 	@Tokenized
 	public Projet getProjetByNomProjet(String nomProjet) {
-		LOGGER.info("RÈcupÈration d'un projet par son nom : {}", nomProjet);
+		LOGGER.info("R√©cup√©ration d'un projet par son nom : {}", nomProjet);
 		try {
 			return em.createNamedQuery("Projet.findByNomProjet", Projet.class).setParameter("NOM", nomProjet)
 					.getSingleResult();
@@ -52,18 +57,27 @@ public class ProjetBusinessService {
 		}
 	}
 
+	/**
+	 * Cr√©er un projet
+	 * 
+	 * @param login le login de l'utisateur qui cr√©er le projet
+	 * @param nomProjet le nom du projet √† cr√©er
+	 * @param description la description du projet
+	 * @return Le projet cr√©√©
+	 * @throws BusinessException
+	 */
 	@Tokenized
 	@Transactional
 	public Projet creerProjet(String login, String nomProjet, String description) throws BusinessException {
-		LOGGER.info("CrÈation d'un projet : {}, par : {}", nomProjet, login);
+		LOGGER.info("Cr√©ation d'un projet : {}, par : {}", nomProjet, login);
 
 		if (utilisateurBusinessService.getUtilisateurByLogin(login) == null) {
 			throw new BusinessException(CustomError.ERROR_UTILISATEUR_NOT_FOUND,
-					"Impossible de crÈer le projet. Aucun utilisateur trouvÈ pour le login : " + login);
+					"Impossible de cr√©er le projet. Aucun utilisateur trouv√© pour le login : " + login);
 		}
 		if (getProjetByNomProjet(nomProjet) != null) {
 			throw new BusinessException(CustomError.ERROR_PROJET_ALREADY_EXIST,
-					"Impossible de crÈer le projet. Un projet existe dÈj‡ pour le nom : " + nomProjet);
+					"Impossible de cr√©er le projet. Un projet existe d√©j√© pour le nom : " + nomProjet);
 		}
 
 		Projet projet = new Projet();
@@ -81,14 +95,22 @@ public class ProjetBusinessService {
 		return em.merge(projet);
 	}
 
+	/**
+	 * R√©cup√®re tous les projets par login et par role
+	 * 
+	 * @param login le login de l'utilisateur qui r√©cup√®re les projets
+	 * @param roleStr le role de l'utilisateur
+	 * @return les projets de l'utilisateur
+	 * @throws BaseException
+	 */
 	@Tokenized
 	public List<Projet> findAllByLoginAndRole(String login, String roleStr) throws BaseException {
-		LOGGER.info("RÈcupÈration des projets pour l'utilisateur : {}, pour le role : {}", login, roleStr);
+		LOGGER.info("R√©cup√©ration des projets pour l'utilisateur : {}, pour le role : {}", login, roleStr);
 		Utilisateur utilisateur = utilisateurBusinessService.getUtilisateurByLogin(login);
 
 		if (utilisateur == null) {
 			throw new BusinessException(CustomError.ERROR_UTILISATEUR_NOT_FOUND,
-					"Impossible de rÈcupÈrer les projets, l'utilisateur : " + login + " n'existe pas");
+					"Impossible de r√©cup√©rer les projets, l'utilisateur : " + login + " n'existe pas");
 		}
 		Role role;
 		if (Role.valueOf(roleStr) == Role.CHEF) {
@@ -97,21 +119,27 @@ public class ProjetBusinessService {
 			role = Role.CHEF;
 		} else {
 			throw new BusinessException(CustomError.ERROR_ROLE_DOES_NOT_EXIST,
-					"Impossible de rÈcupÈrer les projets, le rÙle n'existe pas : " + roleStr);
+					"Impossible de r√©cup√©rer les projets, le r√©le n'existe pas : " + roleStr);
 		}
-		LOGGER.info("Le rÙle reÁu : {}", role.getRole());
+		LOGGER.info("Le r√©le re√©u : {}", role.getRole());
 		List<Projet> projets = em.createNamedQuery("Projet.findAllByRoleAndLogin", Projet.class)
 				.setParameter("ROLE", role).setParameter("LOGIN", login).getResultList();
 		return projets;
 	}
 
+	/**
+	 * R√©cup√®re tous les collaborateurs d'un projet
+	 * @param nomProjet le nom du projet
+	 * @return les utilisateurs
+	 * @throws BaseException
+	 */
 	public List<Utilisateur> findAllCollaborateurByProjet(String nomProjet) throws BaseException {
-		LOGGER.info("RÈcupÈration des collaborateurs pour le projet : {}", nomProjet);
+		LOGGER.info("R√©cup√©ration des collaborateurs pour le projet : {}", nomProjet);
 
 		Projet projet = getProjetByNomProjet(nomProjet);
 		if (projet == null) {
 			throw new BusinessException(CustomError.ERROR_PROJET_NOT_FOUND,
-					"Impossible de rÈcupÈrer les collaborateurs, le projet : " + nomProjet + " n'existe pas");
+					"Impossible de r√©cup√©rer les collaborateurs, le projet : " + nomProjet + " n'existe pas");
 		}
 
 		List<Utilisateur> utilisateurs = em

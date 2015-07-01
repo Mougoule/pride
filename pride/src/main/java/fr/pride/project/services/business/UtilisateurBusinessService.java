@@ -40,14 +40,15 @@ public class UtilisateurBusinessService {
 	private EntityManager em;
 
 	/**
-	 * RÈcupËre un utilisateur par son login
+	 * R√©cup√®re un utilisateur par son login
 	 * 
 	 * @param login
 	 *            login de l'utilisateur
 	 * @return l'utilisateur ou null si rien
 	 */
+	@Tokenized
 	public Utilisateur getUtilisateurByLogin(String login) {
-		LOGGER.info("RÈcupÈration d'un utilisateur par son login : {}", login);
+		LOGGER.info("R√©cup√©ration d'un utilisateur par son login : {}", login);
 		try {
 			return em.createNamedQuery("Utilisateur.findByLogin", Utilisateur.class).setParameter("LOGIN", login)
 					.getSingleResult();
@@ -60,9 +61,9 @@ public class UtilisateurBusinessService {
 	 * Permet l'inscription d'un utilisateur
 	 * 
 	 * @param utilisateur
-	 *            l'utilisateur ‡ inscrire
+	 *            l'utilisateur √© inscrire
 	 * @throws BaseException
-	 *             si le login est dÈj‡ utilisÈ
+	 *             si le login est d√©j√© utilis√©
 	 */
 	@Tokenized
 	@Transactional
@@ -71,34 +72,34 @@ public class UtilisateurBusinessService {
 		Utilisateur response = getUtilisateurByLogin(login);
 		if (response != null) {
 			throw new BusinessException(CustomError.ERROR_UTILISATEUR_ALREADY_EXISTS,
-					"Impossible de crÈer l'utilisateur, ce login est dÈj‡ utilisÈ : " + login);
+					"Impossible de cr√©er l'utilisateur, ce login est d√©j√© utilis√© : " + login);
 		}
 		LOGGER.info("Inscription de l'utilisateur : {}", login);
-		
+
 		try {
 			String mdpHash = PasswordUtils.createHash(utilisateur.getPassword());
-			LOGGER.debug("Mot de passe hashÈ : {}", mdpHash);
+			LOGGER.debug("Mot de passe hash√© : {}", mdpHash);
 			utilisateur.setPassword(mdpHash);
 			em.persist(utilisateur);
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-			throw new TechnicalException("Impossible de crÈer l'utilisateur", "Impossible de hasher le mot de passe", e);
+			throw new TechnicalException("Impossible de cr√©er l'utilisateur", "Impossible de hasher le mot de passe", e);
 		}
-		
+
 		return utilisateur;
 	}
 
 	/**
-	 * Permet de dÈsinscrire un utilisateur gr‚ce ‡ son login
+	 * Permet de d√©sinscrire un utilisateur gr√©ce √© son login
 	 * 
 	 * @param login
-	 *            le login de l'utilisateur ‡ dÈsincrire (suppression
+	 *            le login de l'utilisateur √© d√©sincrire (suppression
 	 * @throws BaseException
-	 *             si l'utilisateur n'est pas trouvÈ
+	 *             si l'utilisateur n'est pas trouv√©
 	 */
 	@Tokenized
 	@Transactional
 	public void desinscrireUtilisateur(String login) throws BaseException {
-		LOGGER.info("DÈsinscription de l'utilisateur : {}", login);
+		LOGGER.info("D√©sinscription de l'utilisateur : {}", login);
 		Utilisateur utilisateur = getUtilisateurByLogin(login);
 		if (utilisateur == null) {
 			throw new BusinessException(CustomError.ERROR_UTILISATEUR_NOT_FOUND,
@@ -108,7 +109,7 @@ public class UtilisateurBusinessService {
 	}
 
 	/**
-	 * Permet la modification d'un utilisateur trouvÈ par son login
+	 * Permet la modification d'un utilisateur trouv√© par son login
 	 * 
 	 * @param login
 	 *            le login de l'utilisateur
@@ -117,7 +118,7 @@ public class UtilisateurBusinessService {
 	 * @param email
 	 *            le nouvel email (ou l'ancien)
 	 * @throws BaseException
-	 *             si l'utilisateur n'a pas ÈtÈ trouvÈ
+	 *             si l'utilisateur n'a pas √©t√© trouv√©
 	 */
 	@Tokenized
 	@Transactional
@@ -142,11 +143,12 @@ public class UtilisateurBusinessService {
 		utilisateur = getUtilisateurByLogin(login);
 
 		if (utilisateur == null) {
-			throw new BusinessException(CustomError.ERROR_UTILISATEUR_NOT_FOUND, "Aucun utilisateur pour ce login : " + login);
+			throw new BusinessException(CustomError.ERROR_UTILISATEUR_NOT_FOUND, "Aucun utilisateur pour ce login : "
+					+ login);
 		}
 
 		try {
-			// VÈrification du mot de passe
+			// V√©rification du mot de passe
 			if (!PasswordUtils.validatePassword(password, utilisateur.getPassword())) {
 				// Mot de passe incorrect
 				throw new BusinessException(CustomError.ERROR_SECURITY_INVALID_CREDENTIALS,
@@ -158,7 +160,7 @@ public class UtilisateurBusinessService {
 					"Impossible de hasher le mot de passe", e);
 		}
 
-		// Authentification OK, on rÈcupËre un nouveau token
+		// Authentification OK, on r√©cup√©re un nouveau token
 		String token = securityBusinessService.newToken();
 
 		Connexion connexion = new Connexion();
@@ -167,23 +169,42 @@ public class UtilisateurBusinessService {
 
 		return connexion;
 	}
-	
+
+	/**
+	 * R√©cup√©re tous les projets d'un utilisateur
+	 * 
+	 * @param login le login de l'utilisateur
+	 * @return la liste des projets
+	 * @throws BaseException
+	 */
 	@Tokenized
-	public List<Projet> getProjets (String login) throws BaseException {
-		LOGGER.info("RÈcupÈration des projets de l'utilisateur : {}", login);
+	public List<Projet> getProjets(String login) throws BaseException {
+		LOGGER.info("R√©cup√©ration des projets de l'utilisateur : {}", login);
 		Utilisateur utilisateur;
 		utilisateur = getUtilisateurByLogin(login);
 
 		if (utilisateur == null) {
-			throw new BusinessException(CustomError.ERROR_UTILISATEUR_NOT_FOUND, "Aucun utilisateur pour ce login : " + login);
+			throw new BusinessException(CustomError.ERROR_UTILISATEUR_NOT_FOUND, "Aucun utilisateur pour ce login : "
+					+ login);
 		}
 
 		List<Projet> projets = new ArrayList<Projet>();
 
-		for(Collaborateur eq : utilisateur.getCollaborations()){
+		for (Collaborateur eq : utilisateur.getCollaborations()) {
 			projets.add(eq.getProjet());
 		}
-		
+
 		return projets;
+	}
+
+	public List<Utilisateur> getUtilisateurNotInProjet(String nomProjet) {
+
+		LOGGER.info("R√©cup√©ration d'un utilisateur par son login : {}", nomProjet);
+		try {
+			return em.createNamedQuery("Utilisateur.findAllNotInProjet", Utilisateur.class)
+					.setParameter("NOMPROJET", nomProjet).getResultList();
+		} catch (NoResultException e) {
+			return null;
+		}
 	}
 }

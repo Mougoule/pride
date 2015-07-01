@@ -19,6 +19,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+/**
+ * Entité de l'idée
+ */
 @Table(name = "idee")
 @Entity
 @NamedQueries({
@@ -29,6 +32,9 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Idee {
 
+	/**
+	 * Clef composite d'une idée
+	 */
 	@EmbeddedId
 	private IdeeId id;
 	
@@ -39,11 +45,17 @@ public class Idee {
 	@Column(name = "date_modification_idee")
 	private Date dateModification;
 	
+	/**
+	 * Association avec un utilisateur
+	 */
 	@ManyToOne
 	@JoinColumn(name = "id_utilisateur", nullable = false)
 	@MapsId("idUtilisateur")
 	private Utilisateur utilisateur;
 	
+	/**
+	 * Association avec un projet
+	 */
 	@ManyToOne
 	@JoinColumn(name = "id_projet", nullable = false)
 	@MapsId("idProjet")

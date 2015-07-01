@@ -19,28 +19,22 @@ import fr.pride.project.services.business.exceptions.BusinessException;
 import fr.pride.project.services.common.BaseError;
 
 /**
- * Implementation of {@link SecurityBusinessService}
- * 
- * Token functionalities cannot be used in a clustered environment
- * 
- *
+ * Web service de s√©curit√©. G√©re la tokenization
  */
 @Service
 public class SecurityBusinessService {
 
 	/** Logger */
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(SecurityBusinessService.class);
-	
-	/** DurÈe de validitÈ du token en minutes */
+	private static final Logger LOGGER = LoggerFactory.getLogger(SecurityBusinessService.class);
+
+	/** Dur√©e de validit√© du token en minutes */
 	private static final long TOKEN_DURATION = Configuration.getTokenDuration();
-	
+
 	/** Cache des tokens */
 	private static final Cache<String, UUID> TOKEN_CACHE = CacheBuilder.newBuilder()
-			.expireAfterWrite(TOKEN_DURATION, TimeUnit.MINUTES)
-			.expireAfterAccess(TOKEN_DURATION, TimeUnit.MINUTES)
+			.expireAfterWrite(TOKEN_DURATION, TimeUnit.MINUTES).expireAfterAccess(TOKEN_DURATION, TimeUnit.MINUTES)
 			.build();
-	
+
 	/** Entity Manager */
 	@PersistenceContext
 	private EntityManager em;
@@ -48,17 +42,15 @@ public class SecurityBusinessService {
 	public void checkToken(String token) throws BaseException {
 		UUID uuid = TOKEN_CACHE.getIfPresent(token);
 		if (uuid == null) {
-			throw new BusinessException(
-					BaseError.ERROR_SECURITY_TOKEN, 
-					"Token not found or expired", 
+			throw new BusinessException(BaseError.ERROR_SECURITY_TOKEN, "Token not found or expired",
 					"You tried to access a tokenized method but your token (" + token + ") was not valid anymore");
 		}
 	}
 
 	public String newToken() throws BaseException {
-		LOGGER.info("GÈnÈration d'un nouveau token");
-		
-		// Credentials OK, gÈnÈration d'un nouveau token
+		LOGGER.info("G√©n√©ration d'un nouveau token");
+
+		// Credentials OK, g√©n√©ration d'un nouveau token
 		UUID uuid = UUID.randomUUID();
 		String token = uuid.toString();
 		TOKEN_CACHE.put(token, uuid);

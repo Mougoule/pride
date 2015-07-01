@@ -18,6 +18,9 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 import fr.pride.project.model.enums.Role;
 
+/**
+ * Entité collaborateur
+ */
 @Table(name = "collaborateur")
 @Entity
 @NamedQueries({
@@ -42,19 +45,31 @@ import fr.pride.project.model.enums.Role;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Collaborateur {
 	
+	/**
+	 * Clef primaire composite
+	 */
 	@EmbeddedId
 	private CollaborateurId id;
 	
+	/**
+	 * Association
+	 */
 	@ManyToOne
 	@JoinColumn(name = "id_utilisateur", nullable = false)
 	@MapsId("idUtilisateur")
 	private Utilisateur utilisateur;
 	
+	/**
+	 * Association
+	 */
 	@ManyToOne
 	@JoinColumn(name = "id_projet", nullable = false)
 	@MapsId("idProjet")
 	private Projet projet;
 	
+	/**
+	 * Enum car il n'y as que deux rôles possibles (Chef d'équipe et collaborateur)
+	 */
 	@Enumerated(EnumType.STRING)
 	private Role role;
 

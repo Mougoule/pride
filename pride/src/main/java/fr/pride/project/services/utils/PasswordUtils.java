@@ -38,9 +38,6 @@ import javax.crypto.spec.PBEKeySpec;
 
 /**
  * Utilitaire de hashage de mot de passe
- * 
- * @author RM
- *
  */
 public final class PasswordUtils {
 	

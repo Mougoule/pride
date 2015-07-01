@@ -5,6 +5,9 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+/**
+ * Clef composite du collaborateur
+ */
 @Embeddable
 public class CollaborateurId implements Serializable{
 

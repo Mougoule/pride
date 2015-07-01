@@ -44,8 +44,8 @@ public class UtilisateurRestService {
 	private CommentaireBusinessService commentaireBusinessService;
 
 	/**
-	 * Web service de récupération d'un utilisateur par son login. On utilise
-	 * une requête HTTP avec la méthode GET. Le login est passé par l'URL
+	 * Web service de rÃ©cupÃ©ration d'un utilisateur par son login. On utilise
+	 * une requÃªte HTTP avec la mÃ©thode GET. Le login est passÃ© par l'URL
 	 * 
 	 * @param login
 	 *            le login de l'utilisateur
@@ -92,8 +92,8 @@ public class UtilisateurRestService {
 	}
 
 	/**
-	 * Web service d'ription d'un utilisateur. On utilise une requête HTTP avec
-	 * la méthode POST. Les données sont passées par un FormParam.
+	 * Web service d'ription d'un utilisateur. On utilise une requï¿½te HTTP avec
+	 * la mÃ©thode POST. Les donnÃ©es sont passÃ©es par un FormParam.
 	 * 
 	 * @param login
 	 *            le login de l'utilisateur
@@ -101,7 +101,7 @@ public class UtilisateurRestService {
 	 *            son password
 	 * @param email
 	 *            son email
-	 * @return true si créé, une exception sinon (utilisateur non existant)
+	 * @return utilisateur crÃ©Ã© sinon erreur
 	 */
 	@POST
 	@Produces("application/json")
@@ -125,13 +125,13 @@ public class UtilisateurRestService {
 	}
 
 	/**
-	 * Web service de désincription d'un utilisateur grâce à son login. On
-	 * utilise une requête HTTP avec la méthode DELETE. Le login est passé par
+	 * Web service de dÃ©sincription d'un utilisateur grÃ¢ce Ã  son login. On
+	 * utilise une requÃ©te HTTP avec la mÃ©thode DELETE. Le login est passÃ© par
 	 * un FormParam
 	 * 
 	 * @param login
-	 *            le login de l'utilisateur à supprimer
-	 * @return true si supprimé, une exception sinon (utilisateur non existant)
+	 *            le login de l'utilisateur Ã  supprimer
+	 * @return true si supprimÃ©, une exception sinon (utilisateur non existant)
 	 */
 	@DELETE
 	@Produces("application/json")
@@ -150,16 +150,16 @@ public class UtilisateurRestService {
 	}
 
 	/**
-	 * Web service de modification d'un utilisateur. On utilise une requête HTTP
-	 * avec la méthode PUT. Les données sont passées par un FormParam
+	 * Web service de modification d'un utilisateur. On utilise une requÃªte HTTP
+	 * avec la mÃ©thode PUT. Les donnÃ©es sont passÃ©es par un FormParam
 	 * 
 	 * @param login
-	 *            le login de l'utilisateur à modifier
+	 *            le login de l'utilisateur Ã  modifier
 	 * @param password
 	 *            son password
 	 * @param email
 	 *            son email
-	 * @return true si la modification est un succès, une exception sinon
+	 * @return true si la modification est un succÃ©s, une exception sinon
 	 *         (utilisateur non existant)
 	 */
 	@PUT
@@ -180,16 +180,16 @@ public class UtilisateurRestService {
 	}
 
 	/**
-	 * Web service pour commenter On utilise une requête HTTP avec la méthode
-	 * POST. Les données sont passées par un FormParam.
+	 * Web service pour commenter On utilise une requÃªte HTTP avec la mÃ©thode
+	 * POST. Les donnÃ©es sont passÃ©es par un FormParam.
 	 * 
 	 * @param login
 	 *            le login de l'utilisateur
 	 * @param nomProjet
-	 *            le nom du projet à commenter
+	 *            le nom du projet Ã  commenter
 	 * @param texte
 	 *            le contenu du commentaire
-	 * @return true si créé, une exception sinon
+	 * @return true si crÃ©Ã©, une exception sinon
 	 */
 	@POST
 	@Produces("application/json")
@@ -220,7 +220,7 @@ public class UtilisateurRestService {
 	}
 
 	/**
-	 * Web service pour récupérer les projets d'un utilisateur
+	 * Web service pour rÃ©cupÃ©rer les projets d'un utilisateur
 	 * 
 	 * @param login
 	 *            le login de l'utilisateur
@@ -244,11 +244,10 @@ public class UtilisateurRestService {
 	}
 
 	/**
-	 * Web service pour récupérer les projets d'un utilisateur
-	 * 
-	 * @param login
-	 *            le login de l'utilisateur
-	 * @return les projets, une exception sinon
+	 * CrÃ©ation d'une idÃ©e pour un projet
+	 * @param login le login de l'utilisateur crÃ©ant l'idÃ©e
+	 * @param nomProjet le nom du projet
+	 * @param ideeString l'idÃ©e
 	 */
 	@POST
 	@Produces("application/json")
@@ -264,7 +263,25 @@ public class UtilisateurRestService {
 		} catch (BusinessException e) {
 			response = RestServiceHelper.handleFailureResponse(e);
 		}
-		
+
+		return response;
+	}
+
+	/**
+	 * RÃ©cupÃ¨re les utilisateurs qui ne sont pas associer au projet
+	 * @param nomProjet
+	 * @return
+	 */
+	@GET
+	@Produces("application/json")
+	@Path("/notin/projet/{nomUtilisateur}")
+	public Response getUtilisateurNotInProjet(@PathParam("nomProjet") String nomProjet) {
+
+		Response response;
+		List<Utilisateur> utilisateurs;
+
+		utilisateurs = utilisateurBusinessService.getUtilisateurNotInProjet(nomProjet);
+		response = RestServiceHelper.handleSuccessfulResponse(utilisateurs);
 		return response;
 	}
 }

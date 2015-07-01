@@ -17,6 +17,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+/**
+ * Entité du commentaire
+ */
 @Table(name = "commentaire")
 @Entity
 @NamedQueries({
@@ -27,14 +30,24 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Commentaire {
 
+	/**
+	 * Clef primaire composite
+	 */
 	@EmbeddedId
 	private CommentaireId id;
 	
+	
+	/**
+	 * Association avec un utilisateur 
+	 */
 	@ManyToOne
 	@JoinColumn(name = "id_utilisateur", nullable = false)
 	@MapsId("idUtilisateur")
 	private Utilisateur utilisateur;
 	
+	/**
+	 * Association avec un projet
+	 */
 	@ManyToOne
 	@JoinColumn(name = "id_projet", nullable = false)
 	@MapsId("idProjet")
